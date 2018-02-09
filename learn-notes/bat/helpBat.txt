@@ -1,0 +1,23 @@
+@echo off 
+::<--这个是注释这个文件教你bat
+for /? > for.txt 
+set /? > set.txt 
+shift /? >shift.txt 
+if /? >if.txt
+copy /? >copy.txt
+dir /? >dir.txt
+del /? >del.txt
+type /? >type.txt
+path /? >path.txt
+start /? >start.txt
+break /? >break.txt
+ping /? >ping.txt
+net > net.txt
+cmd /? >cmd.txt
+at /? >at.txt
+sort /? >sort.txt
+attrib /? >attrib.txt
+fc /? >fc.txt
+find /? >find.txt
+help /? >help.txt
+exit

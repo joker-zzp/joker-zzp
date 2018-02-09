@@ -1,0 +1,64 @@
+启动一个单独的窗口运行指定的程序或命令。
+
+START ["title"] [/D path] [/I] [/MIN] [/MAX] [/SEPARATE | /SHARED]
+      [/LOW | /NORMAL | /HIGH | /REALTIME | /ABOVENORMAL | /BELOWNORMAL]
+      [/AFFINITY <hex affinity>] [/WAIT] [/B] [command/program]
+      [parameters]
+
+    "title"     在窗口标题栏中显示的标题。
+    path        启动目录。
+    B           启动应用程序，但不创建新窗口。应用程序已
+                忽略 ^C 处理。除非应用程序启用 ^C 处理，否则 ^Break 是唯一可以中断
+                该应用程序的方式。
+    I           新的环境将是传递给 cmd.exe 的原始环境，而不是当前环境。
+    MIN         以最小化方式启动窗口。
+    MAX         以最大化方式启动窗口。
+    SEPARATE    在单独的内存空间中启动 16 位 Windows 程序。
+    SHARED      在共享内存空间中启动 16 位 Windows 程序。
+    LOW         在 IDLE 优先级类中启动应用程序。
+    NORMAL      在 NORMAL 优先级类中启动应用程序。
+    HIGH        在 HIGH 优先级类中启动应用程序。
+    REALTIME    在 REALTIME 优先级类中启动应用程序。
+    ABOVENORMAL 在 ABOVENORMAL 优先级类中启动应用程序。
+    BELOWNORMAL 在 BELOWNORMAL 优先级类中启动应用程序。
+    AFFINITY    新应用程序将具有指定的处理器关联掩码，用十六进制数字表示。
+    WAIT        启动应用程序并等待它终止。
+    command/program
+                如果它是内部 cmd 命令或批文件，则该命令处理器是使用 cmd.exe
+                的 /K 开关运行的。
+                这表示运行该命令之后，该窗口将仍然存在。
+
+                如果它不是内部 cmd 命令或批文件，则它就是一个程序，并将作为
+                一个窗口化应用程序或控制台应用程序运行。
+
+    parameters  这些是传递给 command/program 的参数。
+
+注意: 在 64 位平台上不支持 SEPARATE 和 SHARED 选项。
+
+如果命令扩展被启用，通过命令行或 START 命令的外部命令
+调用会如下改变:
+
+将文件名作为命令键入，非可执行文件可以通过文件关联调用。
+    (例如，WORD.DOC 会调用跟 .DOC 文件扩展名关联的应用程序)。
+    关于如何从命令脚本内部创建这些关联，请参阅 ASSOC 和
+     FTYPE 命令。
+
+执行的应用程序是 32-位 GUI 应用程序时，CMD.EXE 不等应用
+    程序终止就返回命令提示符。如果在命令脚本内执行，该新行为
+    则不会发生。
+
+如果执行的命令行的第一个符号是不带扩展名或路径修饰符的
+    字符串 "CMD"，"CMD" 会被 COMSPEC 变量的数值所替换。这
+    防止从当前目录提取 CMD.EXE。
+
+如果执行的命令行的第一个符号没有扩展名，CMD.EXE 会使用
+    PATHEXT 环境变量的数值来决定要以什么顺序寻找哪些扩展
+    名。PATHEXT 变量的默认值是:
+
+        .COM;.EXE;.BAT;.CMD
+
+    请注意，该语法跟 PATH 变量的一样，分号隔开不同的元素。
+
+查找可执行文件时，如果没有相配的扩展名，看一看该名称是否
+与目录名相配。如果确实如此，START 会在那个路径上调用 
+Explorer。如果从命令行执行，则等同于对那个路径作 CD /D。

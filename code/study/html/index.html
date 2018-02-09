@@ -1,0 +1,131 @@
+<%@page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript"></script>
+        <title>The forgotten land of the world</title>
+        <style type="text/css">
+        	div.margin {margin: ;}
+        </style>
+    </head>
+    <body style="background-color: black;">
+    	<!--
+        	作者：joker
+        	时间：2017-06-09
+        	描述：全覆盖的div
+        -->
+        <div id="number1"style="width: 100%;height: 100%;">
+        	<div id="number2"style="position: absolute;width: 400px;height: 50px;text-align: center;margin: auto;
+     			left: 50%;top: 50%;margin-left: -200px;margin-top: -350px;border: 1px solid;z-index: 5;">
+        		<h3 style="text-align: center;color: white;">
+        			Welcome to the world's forgotten land
+        		</h3>
+        	</div>
+        	<div style="position: absolute;width: 300px;height: 100px;text-align: center;margin: auto;left: 50%;top: 50%;
+        			margin-left: -150px;margin-top: -50px;z-index: 3;background-color: black;">
+        			<p style="font-size: 15px;color: red;text-align: center;">
+        				username:
+        				<input id="userid"type="text"class="textbox" />
+        			</p>
+        			<p style="font-size: 15px;color: red;text-align: center;">
+        				password:
+        				<input id="pswd"type="text"class="textbox"/>
+        			</p>
+        			<button onclick="">test</button>
+        		</div>
+        </div>
+ 	</body>
+ 	<script type="text/javascript">
+ 		
+ 		//text function
+ 		map();
+ 		var rid = new Array();
+ 		
+ 		//接收一个随机生成出来的id
+		var fId ;
+//		fz();
+		moveId();
+ 		fId = moveId();
+ 		alert (fId[0]);
+ 		
+ 		//初始化地图
+ 		function map(){
+ 			//在id为number1下创建出所有坐标点
+ 			var div = document.getElementById('number1');
+ 			//地图横坐标
+ 			var x = Math.floor(Math.random()*90)
+ 			for (var i = 0 ; i < 100 ; i++) {
+ 				for(var f = -1 ; f < 50; f++ ){
+ 					var newP = document.createElement("p");
+ 					newP.id = ("x"+i+"y"+f);
+ 					newP.style.color = "#00ff00";
+ 					newP.style.position = "absolute";
+ 					newP.style.width = "10px";
+ 					newP.style.height = "25px";
+ 					newP.style.bottom = (2*f) + "%";
+ 					newP.style.left = i + "%";
+ 					newP.style.zIndex = "2";
+ 					//是否隐藏
+ 				//newP.style.display = "none";
+ 					//将新建的p标签赋值
+ 					var textnode = document.createTextNode(" ");
+ 					newP.appendChild(textnode);
+ 					//在父标签的开发添加新标签
+ 					div.insertBefore(newP, div.childNodes[0]);
+ 				}
+ 			}
+ 		}
+ 		
+ 		//生成一个0~9的随机丨
+ 		function R(){
+ 			var a = Math.floor(Math.random()*10);
+ 			return a;
+ 		}
+ 		
+ 		//生成出一个坐标数组并将坐标赋随机值
+ 		function fz(){
+	 		//储存随机生成的坐标x/y
+ 		//	var rid = new Array();
+ 			var x = Math.floor(Math.random()*100);
+ 			var y = Math.floor(Math.random()*50);
+ 			rid[0] = x ;
+ //		alert(rid[0]);  //test
+ 			rid[1] = y ;
+// 		alert(rid[1]); //test
+//			document.getElementById("x"+x+"y"+y).innerHTML=R();
+ 		}
+		
+		//根据随机生成的id进行赋值
+		function fid(){
+			fz();
+			var fId = "x" + rid[0] + "y"+ rid[1] ;
+//			document.getElementById("x" + rid[0] + "y" + rid[1] ).innerHTML = R();
+			return fId;
+		}
+		
+		//将生根根据生成的id进行移动
+		function moveId(){
+			fz();
+			var ids = new Array();
+			//随机生成一个丨这个丨代表要移动几行
+			var r = Math.floor((Math.random()*5)+5)
+			for (var i = 0; i < r; i++){
+				if (rid[1]+i > 99) {
+					return;
+				}
+				ids.push("x" + rid[0] + "y"+ (rid[1] + i));
+			}
+			return ids ;
+		}
+		
+		//2017年6月10日15点08分
+		//将fId数组中的id变化
+		function change(){
+		
+		}
+		
+
+ 	</script>
+</html>

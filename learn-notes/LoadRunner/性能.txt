@@ -1,0 +1,21 @@
+复习：
+1.参数化策略
+1）核心思想：以不变应万变  变量名 - 值
+2）关键：类型 + 数据 + 策略
+3）类型：
+File - 数据有测试工程师准备*.dat  大量业务数据
+Data/Time - 数据有系统时间获取，指定不同格式
+Random Number - 指定范围，获取随机数据
+Iteeration Number - 迭代编号
+Unique Number - 唯一编号
+...
+4）File类型考虑具体策略
+《1》Select next row (How? 如何取？)取值方式
+a.顺序	b.唯一的	c.随机的	d.和xx一致 
+《2》Update value on (When ? )更新时机
+a.每次迭代 Each Iteraction
+b.每次遇到 Each Occurrence 
+c.仅取一次 Once
+<3>When out of values (选择Unique时启用)越界处理
+a.放弃VU Abort Vuser	b.循环继续	c.持续最后一值
+《4》多用户实现唯一的原理  分块 + 数据充足 + 自己自足

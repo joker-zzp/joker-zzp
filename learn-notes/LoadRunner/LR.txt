@@ -1,0 +1,8 @@
+LR通用函数：
+lr_start_transaction("事务名");   开始事务
+lr_end_transaction("事务名");    结 束事务
+lr_think_time(18);  步骤等待时间
+lr_rendezvous("集合点名");   Action 中，事务开始之前
+
+Web协议
+web_reg_find("Text=检查的页面源代码文本",LASt);

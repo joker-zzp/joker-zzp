@@ -1,0 +1,84 @@
+python3 + Django + apache2 环境配置
+
+  0. 准备：
+    1) python3
+    2) python3-pip3
+    3) Django
+    4) apache2
+    5) mod_wsgi
+    6) 项目
+      如果创建新项目：
+        第2步
+
+  1. apache2 环境配置
+    项目在/var/www/html 中（默认的）
+    配置文件在 /etc/apache2/ 中
+    需要 创建一个新的配置文件 cd /etc/apache2/sites-available/ | vi <file>.conf
+
+*************************          示    例          *************************
+
+<VirtualHost *:81>
+
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/mysite  #这是项目所在目录(ps:配置文件中不能包含中文，注释也不行)
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+	
+        # 这是保存上传文件的地方
+        Alias /media/ /var/www/mysite/media/
+        # 这是保存静态文件的地方(.js/.css)
+        Alias /static/ /var/www/mysite/static/
+
+        # 项目所在文件夹
+        <Directory /var/www/mysite/static/>
+            Require all granted
+        </Directory>
+	
+	# (很重要)
+        WSGIScriptAlias / /var/www/mysite/mysite/wsgi.py
+	# (同步目录)
+        <Directory /var/www/mysite/mysite/>
+            <Files wsgi.py>
+                Require all granted
+            </Files>
+        </Directory>
+    
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+
+*************************          示 例 end         *************************
+
+
+    在修改 /etc/apache2/ports.conf 插入一行 Listen 81
+
+    编辑 /etc/apache2/mods-enabled/wsgi.load  --插--入-->LoadModule wsgi_module /usr/lib/apache2/modules/mod_wsgi.so
+
+    编辑 /etc/apache2/mods-enabled/wsgi.conf  --插--入-->WSGIPythonPath /var/www/mysite (项目所在路径)
+
+  2. 配置项目将项目放在 /var/www/ 下
+    如果要新建项目 django-admin.py startporject <porjectName>
+      目录如下：
+      root@localhost:/var/www/mysite# tree
+      .
+      ├── manage.py
+      ├── media
+      ├── mysite
+      │  ├── __init__.py
+      │  ├── settings.py
+      │  ├── urls.py
+      │  ├── view.py
+      │  └── wsgi.py
+      └── static
+
+
+    需要吧静态文件放到static中
+    
+  3. 配置到apache2
+     在 /etc/apache2/sites-available/ | a2ensite <file>.conf
+     
+     # 可以启动服务器了
+     service apache2 start
+
+之后就上菜鸟教程看Django教程吧

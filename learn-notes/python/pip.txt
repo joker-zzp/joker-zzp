@@ -1,0 +1,6 @@
+pip install:
+
+numpy rope jedi flake8 importmagic elpy rope_py3k  autopep8 yapf  pylint  scipy spyder ipython   matplotlib  nose pillow setuptools
+libatlas-base-dev gfortran  
+
+sudo apt-get install python3-matplotlib

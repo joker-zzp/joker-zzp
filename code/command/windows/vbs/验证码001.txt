@@ -1,0 +1,100 @@
+import java.util.Random;
+import java.util.Scanner;
+
+
+public class jk_003 {
+public static void main(String[] args) {
+	c1 a= new c1();
+	do {
+		Random ran= new Random();
+		int s=ran.nextInt(3);
+		if (s==1) {
+			a.jiafa();
+		}
+		a.outTest();
+	} while (true);
+}
+}
+interface c0{
+	//属性
+	   int NUMBER = (int)(Math.random()*50);
+	   //	抽象方法
+	   //进行随机算数式
+	   void jiafa ();
+	   //随机字符串
+	   void outTest();
+
+}
+ class c1 implements c0{
+
+	@Override
+	public void jiafa() {//进入式子计算，并出结果
+		// 返回加法或者乘法计算式
+		Random rand = new Random();
+		int a = rand.nextInt(9)+1;
+		int b = rand.nextInt(9)+1;
+		int c = rand.nextInt(9)+1;
+		String yunsuanfu[]={"*","+"};
+		int e1 = rand.nextInt(2);
+		int e2 = rand.nextInt(2);
+		String f1=yunsuanfu[e1];
+		String f2=yunsuanfu[e2];
+		int sum1=0;
+		
+	    if(f1=="*"&&f2=="*"){
+	    	sum1=a*b*c;
+	    }else if(f1=="+"&&f2=="+"){
+	    	sum1=a+b+c;
+	    }else if(f1=="*"&&f2=="+"){
+	    	sum1=a*b+c;
+	    }else{
+	    	sum1=a+b*c;
+	    }
+	    System.out.println(a+f1+b+f2+c+"=");
+	    Scanner ser = new Scanner(System.in);
+	    System.out.println("请输入计算结果");
+	    int sum2 = ser.nextInt();
+	    if(sum1==sum2){
+	    	System.out.println("验证码输入正确！");
+	    }else{
+	    	System.out.println("验证码输入错误！");
+	    }
+	}
+		
+
+	@Override
+	public void outTest() {//进入字符串随机出结果
+		// 创建字符串
+		String a="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+		//创建char数组
+		char b [] ;
+		//将char数组把字符串拆分开
+		b=a.toCharArray();
+		//接收char数组的结果
+		String value = "" ;
+		//循环5个字符
+		for(int i = 0 ; i<5; i++){
+		int x =(int)(Math.random()*61);
+		//用字符串接收char的输出
+		value+=b[x];
+		System.out.print(b[x]);
+		}
+		//将所有的接收结果转换成大写
+		value = value.toUpperCase();
+		//提示输入验证码
+		System.out.println("\r请输入验证码");
+		//接收验证码
+		Scanner sb=new Scanner(System.in);
+		//将验证码全转换成大写
+		String add=sb.next().toUpperCase();
+		//判断接收的字符串和输入的字符串是否完全一致
+		if (value.equals(add)) {
+			//一致输出结果
+			System.out.println("验证码输入正确！");
+		} else {
+			//不一致输出的结果
+			System.out.println("验证码输入错误！");
+		}
+	}
+	
+}
