@@ -1,0 +1,106 @@
+Linux 进阶命令之find
+
+# find命令详解
+find [选项] [参数]
+# 列出当前目录及子目录下所有文件
+find ./
+# 查找当前目录所有文件
+find ./ -type f
+# 查找当前目录所有路径
+find ./ -type d
+# 按名字字符查找test.txt
+find ./ -name "test.txt"
+# 按名字字符查找多个文件文件和路径
+find ./ -name [name1] -o -name [name2]
+find ./ \(-name [name1] -o -name [name2]\)
+# 按名字字符查找文件文件
+find ./ -type f -name [findname]
+# 按名字字符查找路径
+find ./ -type d -name [pathname]
+# 基于目录深度搜索
+find ./ -maxdepth [参数]
+# 在当前目录下3层深度中查找出所有名字是t开头的文件（不要包含目录）
+find ./ -maxdepth 3 -name "t*" -type f
+# 查找空文件或目录
+find ./ -empty
+# 按权限查找文件或目录
+find ./ -perm [参数]
+# 查找权限为665文件或目录（需要完全符合）
+find ./ -perm 665
+# 查找用户/组拥有权限为665文件或目录
+find ./ -perm -665
+# 查找用户有写权限或者组用户拥有写文件或目录
+find ./ -perm /220
+find ./ -perm /u+w,g+w
+find ./ -perm /u=w,g=w
+查找所有者权限有读权限的目录或文件
+find ./ -perm -u=r
+
+Linux 进阶命令之grep
+
+# 从文件中搜索出参数并返回该行
+grep [参数] [文件]
+# 从多个文件中搜索出参数并返回该行
+grep [参数] filename1 filename2 filename3
+# 输出除match_pattern之外的所有行
+grep -v "match_pattern" file_name
+# 输出match_pattern的所有行标记匹配颜色
+grep "match_pattern" file_name --color=auto
+# 使用正则表达式
+grep -E *"[1-9]+"
+或
+egrep "[1-9]+"
+# 只输出文件中匹配到的部分
+grep -o -E [参数]
+# 统计文件或者文本中包含匹配字符串的行数
+grep -c "test" filename
+# 输出包含匹配字符串的行数
+grep "test" -n filename
+或
+cat filename | grep "test" -n
+# 多个文件
+grep "test" -n filename1 filename2 filename3 ...
+# 打印匹配所位于字符或字节的偏移
+grep -b -o "test" test.txt
+10:test
+cat test.txt
+This is a test file!
+# 一行中字符串的字符便宜是从该行的第一个字符开始计算，起始值为0。选项 -b -o 一般总是配合使用。
+
+# 递归搜索文件
+grep "test" ./ -r -n
+# 忽略样式中字符大小写
+grep -i "Test"
+# 制动多个匹配样式
+echo This is a test line! | grep -e "is" -e "line" -o
+is
+line
+# 可以使用-f 选项 来匹配多个样式，在样式文件中逐行写出需要匹配的字符。
+cat patfile
+aaa
+bbb
+echo aaa bbb ccc ddd eee | grep -f patfile -o
+# 在grep搜索结果中包含或者排除指定的文件
+# 只在目录中所有的.php 和 .html 文件中递归搜索字符串"test"
+grep "test" ./ -r --include *.{php,html}
+# 在搜索结果中排除所有".js"文件
+grep "test" ./ -r --exclude "*.js"
+# 在搜索结果中排除filelist文件列表中的文件
+grep "test" ./ -r --exclude-from filelist
+
+
+Linux 进阶命令之(chmod)
+
++-----+-------+-------+--------------+
+|  0  |  000  |  ---  |  没有  权限   |
+|  1  |  001  |  --x  |  执行  权限   |
+|  2  |  010  |  -w-  |  只写  权限   |
+|  3  |  011  |  -wx  |  写、执行     |
+|  4  |  100  |  r--  |  只读权限     |
+|  5  |  101  |  r-x  |  读、执行     |
+|  6  |  110  |  rw-  |  读、写入     |
+|  7  |  111  |  rwx  |  读 写 执行   |
++-----+-------+-------+--------------+
+
+# 将文件赋予755权限
+chmod 755 filename

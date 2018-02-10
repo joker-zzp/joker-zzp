@@ -1,0 +1,13 @@
+# 文本图形界面转化
+
+  Systemd是一种新的linux系统服务管理器。
+
+  切换至字符界面：
+  sudo systemctl set-default multi-user.target
+
+  切换至图形界面：
+  sudo systemctlset-default graphical.target
+
+  打开图形界面:
+  sudo init 5
+

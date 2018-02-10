@@ -1,0 +1,261 @@
+QTP中涉及到的英文单词
+1.New ： 新建测试
+
+2.Open： 打开测试
+
+3.Record：录制脚本
+
+4.Run：运行脚本
+
+5.Stop：停止（录制、运行）
+
+6.Record and run Settings:录制和运行设置
+
+7.DataTable： 数据表格视图，用于存放测试测试步骤界面截图
+
+8.Active Screen： 活动屏幕视图，用于存放测试步骤的界面截图
+
+9. KeyWord View：关键字视图，以表格的形式记录测试步骤
+
+10.Expert View：专家视图，以代码的形式记录测试步骤
+
+11.SystemUtil.run：手动启动录制时自动生成的一行代码，作用是启动被测系统，且只能在第一行 
+
+12.Item： 项目，记录操作的控件对象
+
+13.Operation：操作，记录在控件对象上的操作动作
+
+14.Value：数据，记录操作时使用的测试数据 
+
+15.Object：对象
+
+16.Object Repository：对象仓库
+
+17.TO： 测试对象，存放在对象仓库中的控件对象
+
+18.RO：运行时对象，实际对象，被测系统中的实际对象
+
+19.Object Spy：对象探测器，用于查看RO的属性和属性值
+
+20.Insert：“插入”菜单
+
+21.Check：检查
+
+22.CheckPoint：检查点
+
+23.Standard CheckPoint：标准检查点，用于检查RO、的一个属性、或一些属性的实际结果与预期结果是否一致
+
+24.Text CheckPoint：文本检查点，用于检查被测系统中的文本内容是否与预期文本一致
+
+25.Text Area CheckPoint：文本区域检查点，用于检查被测系统中指定位置中的文本是否与预期文本一致
+
+26.BitMap CheckPoint：位图检查点，用于检查UI界面布局、控件的大小、颜色、形状、分辨率等。
+
+27.Text：文本，记录空件中的文本内容 
+
+28.enabled：可用状态，记录控件的可用状态（是否置灰）
+
+29.Selection：记录下拉框、列表框的当前选项值
+
+30.Checked：记录单选按钮、复选框的选中状态，NO代表选中，off代表未选中
+
+31.Items Count：记录下拉框，列表框的选项总数
+
+32.Value： 记录web控件中的文本内容
+
+33.Datatable：数据表格视图，用于存放大量的测试数据
+
+34.Iteration:反复、迭代
+
+35.Run on all Rows:默认的迭代策略，运行所有行
+
+36.Constant:常量
+
+37.Parameter:参数
+
+38.OutPut Value：输出值
+
+39.Standard OutPut Value:标准输出值，用于获取RO的一个属性、或者一些属性的实际结果
+
+40.Action： Action是一个动作，是一系列操作步骤的集合，是一个独立的逻辑单元
+
+41.Reusable Action： 可复用的action
+
+42.Non-Reusable Action:不可复用的action
+
+43.External-Action:外部的Action
+
+44.Call to New Action:新建action
+
+45.Call to Existing Action：调用action
+
+46.Call to Copy of Action：复制action
+
+47.dtGlobalSheet:全局表单
+
+48.dtLocalSheet:本地表单
+
+49.Iteration：反复、迭代，使用一行测试数据执行一次代码的过程
+
+50.WinEdit:文本框
+
+51.WinButton:按钮
+
+52.WinCheckBox:复选框
+
+53.WinRadioButton:单选按钮
+
+54.WinComboBox:下拉框
+
+55.WinList:列表框
+
+56.WinObject:无法识别的windows控件
+
+57.ActiveX:动态控件
+
+58.Window:窗口
+
+59.Dialog:对话框
+
+60.WinMenu:菜单
+
+61.Set: 文本框、单选按钮、复选框的常用方法
+
+62.Click: 点击、按钮的常用方法
+
+63.Select: 选择，列表框，下拉框和菜单的常用方法
+
+64.Close: 关闭，窗口和对话框中的常用方法
+
+65.Activate: 激活，窗口和对话框的常用方法
+
+66.WebEdit: 文本框
+
+67.WebButton: 按钮
+
+68.WebList:下拉框，列表框
+
+69.WebCheckBox:复选框
+
+70.WebRadioGroup:单选按钮，常用方法为select
+
+71.Link:超链接
+
+72.Browser:浏览器
+
+73.Page:网页
+
+74.Image:图片
+
+75.WebElement:网页元素，一般记录静态文本，或者是复发识别的web控件
+
+76.WebTable:数据表格
+
+77.Sync：网页的常用方法，用于加载同步
+
+78.GetCellData：数据表格的常用方法
+
+79.对象.Check CheckPoint(“检查对象名称”)：检查点自动生成的代码
+
+80.对象.Output CheckPoint(“输出对象名称”)：插入输出值时自动生成的代码
+
+81.DataTable(“列名”，dtGlobalSheet)：Test级别参数化自动升成的代码
+
+82.DataTable(“列名”，dtLocalSheet)：Action级别参数化自动生成的代码
+
+83.DataTable(“列名”，”表单名”)：DataTable参数化代码格式2 
+
+84.DataTable(列编号，表单编号)：DataTable参数化代码格式3
+
+85.Dim： 用于定义变量
+
+86.Option Explicit：必须书写在代码的第一行，强制变量必须先定义才能使用，方便调查变量名称书写错误问题
+
+87.and： 逻辑与
+
+88.or：逻辑或
+
+89.not： 逻辑非
+
+90.Cint():将括号中的数据强制转换为整数
+
+91.Cstr()： 将括号中的数据强制转换为字符串
+
+92.Cdbl()：将括号中的数据强制转换为小数
+
+93.Array： 数组封装函数，一次性将多个值赋值给数组
+
+94.变量=inputbox("输入提示"):以消息框的形式接收键盘数据，返回值默认为字符串
+
+95.msgbox "输出": 以消息框的形式输出指定内容
+
+96.print “输出”：在QTP日志窗口中打印指定内容
+
+97.对象.GetRoProperty（“属性名”）:
+
+98.IF： 选择关键字，如果
+
+99.Then：选择关键字，那么
+
+100.End IF： 选择关键字，结束If语句，与If配对出现
+
+101.Else：2个分支的关键字
+
+102.ElseIF： 多个分支的关键字
+
+103.Select Case：判断相等的多个选择结构
+
+104.Case Else： 所有的case值匹配都不成功时，执行该分支结构语句
+
+105.End Case：用于结束select case 结构。
+
+106.For：for循环关键字 
+
+107.Step：for循环关键字，用于声明步长
+
+108.Next：for循环关键字，与for必须配对出现 
+
+109.Exit For：结束for循环
+
+110.While: while循环关键字 
+
+111.Wend: while循环关键字，与while配对出现 
+
+112.Do:Do loop循环关键字 
+
+113.Loop:Do loop循环关键字 
+
+114.Until: Do loop循环关键字，直到条件成立退出循环 
+
+115.RandomNumber（上限，下限）： 在指定范围内随机产生一个整数
+
+116.Reporter.ReportEvent : 向测试结果报告记录状态的方法 
+
+117.MicPass:通过状态 
+
+118.MicFail: 不通过状态
+
+119.desktop.CaptureBitMap "路径",true： 截图方法
+
+120.CheckProperty：用于检查RO的指定属性的预期结果是否等于实际结果
+
+121.Exist:判断控件是否存在的属性
+
+122.SystemUtil: 系统初始对象
+
+123.CloseDecsendentProcess: 结束进程，包括子进程
+
+124.Function: VBS中定义函数的关键字
+
+125.End Function: VBS中定义函数的关键字，用于结束函数体
+
+126.DataTable.ImportSheet： 将指定的Excel文件中表单数据批量导入到DataTable指定表单中。
+
+127.GetCurrentRow:获取到指定表单的当前运行行
+
+
+
+
+
+
+

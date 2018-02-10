@@ -1,0 +1,567 @@
+Linux/Unix操作系统  OS  系统软件
+软件测试方向：
+   被测系统主要的操作系统，监控系统资源、使用系统常用命令搭建SUT.    Android: Linux + Java
+系统优点：稳定、安全   7*24*365
+
+今天任务：
+1. 安装Linux
+2. 配置网络环境
+3. 常用系统命令
+
+一、Linux的安装    RedHat9 红帽9
+检查需要的安装文件：（*.iso 虚拟光盘镜像压缩文件）
+shrike-i386-disc1.iso    638M
+shrike-i386-disc2.iso    646M
+shrike-i386-disc3.iso    485M
+
+1、Linux的常用的安装方法
+1）使用机器直接安装 （PC、小型机、服务器 等裸机）
+  真实SUT的OS的安装
+2）在虚拟机中安装 （学习、工作方便 常见）
+  学习Linux时，在自己PC中安装
+  个人PC一般使用Windows，安装VM软件，模拟一台裸机，再安装其它OS。
+
+二、虚拟机的使用
+1、新建虚拟机 （好比新建一台物理机）
+2、创建并设置虚拟机的硬件 （好比准备好了裸机）
+3、安装虚拟机软件 （OS：Linux操作系统 其它应用软件）
+
+三、今天任务
+1、先进行图形界面的安装 （使用鼠标）
+2、了解基于字符界面的安装方式 （使用键盘）
+
+新建虚拟机：
+ File -> New -> Virtual Machine -> 弹出窗口
+   选择第二项：Custom(advanced)  -> Next
+    Hardware compatibility: 硬件通用性
+      默认采用：Workstation 6.5-7.x
+     Compatiable products: 兼容性产品
+     Limitations:  硬件限制
+ -> Next
+ 由于没有配置物理硬件，选择第三项
+ I will install the operationg system later.  一会儿再安装OS
+ The Virtual machine will be created with a blank hard disk.
+   虚拟机将会以空硬盘的方式创建
+ -> Next
+ Guest opertion system 选择 Linux
+ 版本Version: 选择 Red Hat Linux   红帽Linux
+ -> Next
+ Virtual machine name: 虚拟机名  Red Hat Linux（显示名称）
+ Location: 虚拟机安装文件的路径 （位置）
+   在E:\下新建安装文件的目录   mylinux
+   将Location改为: E:\mylinux
+ (说明：安装了Linux所有文件，删除文件夹，就可以卸载，
+   可以拷贝使用。)
+ -> Next
+  Processor:  处理器配置    CPU  1个即可
+    Number of processors: 1   1个CPU
+    Number of cores per processor: 1   单核
+    Total processor cores: 1
+ -> Next
+  Memory for this virtual machine: 1G 就够   1024MB
+  (Linux内存，一般配置为物理内存的一半)
+
+四、安装过程：
+1、虚拟机内存 --设置为1G (一般配置为物理内存的一半)
+
+ -> Next
+ Network Type  网络类型，常用第1种和第3种：
+ 第1种：Use bridged networking  桥接方式
+ 第3种：Use host-only networking 私有网络
+ 为了相对简单，先选择第3种
+
+2、网络类型：
+1）桥接：Linux操作系统的IP（独立网络的IP）和主机的IP是同一网络。网络上其它机器可以访问虚拟机。
+
+2）Host-only（第3种）：Linux虚拟机和主机是一个私有网络。网络上其它机器无法访问虚拟机。
+
+ -> Next   硬盘类型
+ Select I/O Controller Types: I/O控制类型
+ 默认选择SCSI Controller: BusLogic(Recommended)
+
+ 硬盘分为：IDE  （大众化）
+            SCSI （速度比较快、配置好，支持企业应用）
+
+3、硬盘类型：IDE和SCSI两种，后者性能较高，价格较昂贵。
+
+ -> Next
+ Select a Disk  选磁盘
+ 默认创建一个新的虚拟磁盘 Create a new Virtual disk.
+
+ -> Next
+ Specify Disk Capacity 指定磁盘容量（默认）
+ Maximum disk size(GB): 8.0
+ 说明：不会立即使用8个G，因为不选择：
+     Allocate all disk space now. (此项不选) 分配所有磁盘空间
+ 默认单选：Store virtual disk as a single file
+             使用一个单一的文件保存虚拟磁盘数据
+
+4、磁盘：8G
+
+'abc'
+char(10)     定长   'abc      '
+varchar2(10) 不定长  可变长   'abc'
+
+ -> Next
+ Specify Disk File: 磁盘文件  （默认位置）
+    Red Hat Linux.vmdk
+
+ -> Next
+ Ready to Create Virtual Machine  到总结页面
+ 
+ -> Finish 完成 （好比虚拟了一台裸机）
+
+ -> 尝试点击Power on this virtual machine  启动虚拟机
+  会一直搜索引导盘，找不到
+ 显示：Operating System not found. 操作系统找不到
+ -> 先结束，点击红色按钮
+
+Ctrl + Alt  从VM回到PC
+
+ -> 点击VM -> Settings -> 弹出窗口
+  准备好3个iso文件(镜像文件)，不需要解压缩
+  shrike-i386-disc1.iso ~ shrike-i386-disc3.iso
+
+ 安装光盘，选择CD/DVD(IDE) -> Use ISO image file:
+ -> Browse 先选择第一张盘 shrike-i386-disc1.iso
+
+ 同时取保选择：Connect at power on  开机时自动连接
+ -> OK
+
+5、安装过程中的回滚
+1）如果安装过程失败，可以使用回滚功能。
+2）使用方法：设置Snapshot 快照（最好在开始时就设置一个），如果安装过程中失败，则回滚到该快照即可。
+3）安装过程中一般设置1-2个快照即可。
+
+ 点击VM -> Snapshot -> Take Snapshot  做一个快照
+   -> 起名字为 Snapshot1-start  -> OK
+ 恢复快照：选择Snapshot -> Revert to Snapshot
+
+ 点击Power on this virtual machine  启动虚拟机
+ 显示以下两项：
+ To install or upgrade Red Hat Linux in graphical mode.press the <ENTER> key.
+ 想用图形化界面安装Linux，就敲回车
+ To install or upgrade Red Hat Linux in text mode. type: linux text <ENTER>.
+ 想用字符界面方式安装Linux，输入linux text 回车
+
+ -> 直接敲回车 Enter
+
+6、虚拟机和本机之间的切换：
+1）从本机进入虚拟机：点击虚拟机界面 或者 ctrl + g
+2）从虚拟机回到本机：ctrl + alt
+
+7、安装方式：
+1）使用图形界面方式：直接回车 Enter
+2）使用字符界面方式：（冒号后）输入linux text 再回车
+
+ -> 跳过检查 选择Skip  (通过Tab键来切换) -> 回车
+ -> 进入图形界面
+
+ -> Next
+ Language Selection 选择  Chinese(Simplified) 简体中文
+
+ -> Next
+ 键盘配置  默认U.S English （识别哪项就默认选择）
+ -> 下一步
+ 鼠标配置 默认 带滑轮鼠标 （识别哪项就默认选择）
+ -> 下一步
+ 安装类型 选择定制
+    个人桌面、工作站、服务器、定制（能熟悉Linux安装细节）
+ -> 下一步
+ 磁盘分区设置   用Disk Durid  手工分区 （熟悉分区过程）
+ -> 下一步
+ 弹出警告窗口，点击 是
+ -> 看到当前磁盘的分布
+ 显示8189MB  相当于8G的磁盘空间
+
+Linux系统具有默认的目录结构：
+根目录只有一个： /  根目录
+/目录下有许多子目录：etc  home  bin  dev  boot等
+/dev目录：设备目录   管理中的设备 device
+  一块硬盘就是一个设备，具有设备名
+  /dev/sda   设备文件，表示一块硬盘
+建议手工分区，三个区：
+ 设备名         挂载点      类型         大小 
+/dev/sda1      /boot       ext3         100M
+/dev/sda2       无          swap        2000M  近2G
+/dev/sda3       /           ext3         余下    近6G
+
+swap分区：交换分区，虚拟内存
+ 操作系统将部分硬盘空间，当做虚拟内存，当物理内存空间不足时，可以借用虚拟内存救急；看似内存变大了，但是性能急剧下降。因为内存的读写速度是硬盘的100倍以上。
+ 思路：性能测试时，可以关注虚拟内存的情况，如果频繁使用，系统存在性能瓶颈，内存空间不足。
+
+8、磁盘分区
+1）自动磁盘分区
+2）手动磁盘分区（至少分为2个分区：/分区 和 swap分区）
+<1> /boot分区：放置启动系统所需的信息   / 根目录
+  （100M左右）
+
+<2> swap分区：Linux中构成虚拟内存的空间
+   交换分区（虚拟内存） （2G 默认是物理内存的2倍）
+   本质：使用硬盘的空间，来模拟内存空间
+      内存看似大了，但速度慢下来，频繁使用不好
+   原因：内存不够用时，以某种算法借用磁盘，模拟内存效果。
+          频繁使用，形成系统性能瓶颈。
+          解决办法，从根源入手，扩内存
+
+<3> /分区：余下的磁盘空间
+   （其它目录可从根开始往下挂载）
+
+ 点击 新建 -> 挂载点：  /boot
+   文件系统类型：默认ext3
+  （一种日志文件系统，对ext2系统的扩展，兼容ext2）
+   默认100MB
+ -> 确定
+   设备/dev/sda1 是SCSI的第一块分区
+   挂载点：就是目录  /boot
+
+ -> 点击 空闲 -> 新建  （swap分区没有挂载点）
+   无需挂载点
+   文件系统类型：swap  ->  自动变为<不适用>
+   大小(MB): 2000  相当于2G左右
+ -> 确定
+
+ -> 点击 空闲 -> 新建 /
+  挂载点：/
+  文件系统类型: ext3
+  选择 使用全部可用空间
+ -> 确定
+
+ 分析：只有swap分区是没有挂载点，后续详细分析。
+ -> 下一步   引导装载配置程序
+ -> 下一步   网络配置（后续通过命令配置）
+ -> 下一步   防火墙配置（默认） 安全级别：中级
+
+9、安装设置
+1）网络：安装后随时更改
+2）防火墙：中级即可
+
+ -> 下一步  附加语音支持
+   选择默认的语言：Chinese(P.R.fo China)
+           表示使用Linux时的语言
+ -> 下一步  时区选择（默认）
+   亚洲 / 上海
+
+暴力破解
+123456
+abc123
+
+cptbtptp123@@bctpdtptp456
+横看成岭侧成峰，远近高低各不同
+ hkclccf1122@@yjgdgbt3344
+不识庐山真面目，只缘身在此山中
+
+如何设置服务器的密码？
+1、由字母、数字、特殊字符混合组成；
+2、不少于15位；
+3、不能写在书面上；
+4、不能是生活词汇、身边常用词汇；
+5、不能一码通； 不同机器使用不同密码
+6、定期更换；  每周一换
+
+ -> 下一步 设置根口令   root口令 （系统登录密码）
+  强调：root用户是Unix/Linux的最高权限用户 (超级管理员)
+  根口令：123456  （输入时不回显）
+  确认：123456
+
+ -> 下一步 验证配置（默认）
+  MD5 数字摘要 
+  特点：能够加密，几乎不能解密
+
+ -> 下一步 选择软件包组
+  全选大概4G，部分选择大概1G多 （浏览软件项）
+  必选的软件：
+    X 窗口系统--保证有图形化界面
+    编辑器--VI 著名的文本编辑器 （Linux/Unix）
+  取消的软件：
+    图形化互联网、基于文本的互联网、视频和音频、图形、
+    打印支持
+
+ -> 下一步 -> 下一步 开始安装...
+
+10、请插入第二张光盘：
+1）选盘 （VM -> Settings -> CD/DVD）
+2）连接复选框（都要选中）
+
+  弹出窗口：更换光盘（请插入第二张光盘后继续）
+  -> 确定
+  弹出错误窗口：该光盘无法被挂载（将外部设备连接到Linux中）
+  -> 确定
+  -> VM -> Settings -> CD/DVD(IDE)
+    选择第二张盘：shrike-i386-disc2.iso
+  注意选中两项：
+    Connected
+    Connect on power on
+  -> OK -> 确定  继续安装...
+
+11、概念
+挂载：将Linux设备（光盘、U盘、硬盘等）和Linux系统相连接的过程，有专门的命令控制。（目前界面自动操作，后续也使用命令完成）
+
+  提示：请插入第三张光盘  同理
+  VM -> Settings -> CD/DVD(IDE)
+    选择第三张盘：shrike-i386-disc3.iso
+  注意选中两项：
+    Connected
+    Connect on power on
+  -> OK -> 确定  继续安装...  
+
+ 是否创建引导盘 -> 否
+ -> 下一步  图形化界面(X)配置  （默认）
+ -> 下一步  显示器配置    （默认）
+ -> 下一步  定制图形化配置
+    选择： 文本   登录后是命令行界面
+ -> 下一步  祝贺页面
+ -> 退出
+
+自动重启Linux系统，进入登录界面：
+    超级管理员root，拥有系统最高权限！
+localhost login: root       本地登录，用户名root
+Password: 123456    密码不回显
+登录成功后，显示提示符：
+[root@localhost root]# 此处可以敲命令  比如date或cal
+规律：提示符能够表达一些信息，比如# 就是root用户的象征。
+规律：不同提示符能够说明所处的不同环境
+       不同环境下的命令也不同！
+  D:\>      Windows环境 D:\下    ipconfig
+  SQL>     Orcacle的sqlplus环境   select * from emp;
+  mysql>    mysql环境               select * from emp;
+  [root@localhost root]#    Linux环境  ifconfig
+
+五、系统登录方式
+1、本地登录   服务器主机前直接操作
+1）字符界面   省系统资源
+2）图形界面   耗系统资源，没有必要
+
+2、远程登录   通过远程PC使用网络登录服务器进行管理
+   （常用）   telnet 对方IP地址
+1）字符界面    常用，无需安装特殊软件
+2）图形界面    不常用，需要安装特殊软件，才能看到实时的图形界面。
+
+常用方法：使用SSH或SecureCRT的小工具（客户端软件），远程连接并访问Linux/Unix系统（当做服务器）。
+ 双击运行 SSHSecureShellClient-3.2.9.exe 安装
+
+六、配置Linux网络环境
+1、如何查看系统的ip地址？
+1）Windows:  打开cmd   ipconfig
+前提：打开 本地连接、VMnet1连接
+本地连接 2: 172.166.100.82
+VMnet1:   192.168.111.1  自己的
+                192.168.37.1   同学的
+Subnet Mask: 255.255.255.0
+
+2）Linux/Unix:  ifconfig
+目前没有设置
+
+2、Linux服务器该设置什么IP?
+1）如果选择桥接方式：（网络设置第1项）
+ 要求：Linux的IP要和本地连接在同一网段中
+2）如果选择私有网络方式：（网络设置第3项）<目前>
+ 要求：Linux的IP要和VMnet1在同一网段中
+  192.168.111.1 
+  192.168.111.2  就在同一网段中
+
+  192.168.37.1
+  192.168.37.2   也在同一网段中
+原因：子网掩码 255.255.255.0
+ 两个IP地址分别和子网掩码，进行按位与操作，如果结果一致，就在同一网段中。
+
+  192.168.111.1   IP1
+  255.255.255.0    按位与      （有0则0，全1则1）
+-----------------------
+  192.168.111.0   结果1
+
+  192.168.111.2   IP2
+  255.255.255.0    按位与      （有0则0，全1则1）
+-----------------------
+  192.168.111.0   结果2和结果1相同，IP1和IP2同一网段
+结论：只要最后一个数字不同即可
+   192.168.37.1   VMnet1 IP
+   192.168.37.2   Linux可设置的IP
+
+3、如何设置？
+1）使用命令：netconfig     网络设置
+  目前改为：192.168.111.2    前3个数字和VMnet1一样
+
+在Linux中，输入netconfig  -> 出现配置窗口（字符界面）
+   -> Would you like to set up networking? 是否配置网络
+   -> Yew  回车   
+
+Use dynamic IP configuration   自动分配IP 
+   不选择，需要自己设置  （用Tab键跳过）
+  IP address: 192.168.111.2    回车两下，自动出现：
+  Netmask: 255.255.255.0     子网掩码
+  Defult getway(IP): 192.168.111.254  默认网关IP
+  Primary nameserver: 192.168.111.1
+  -> Tab 两次   -> 选择OK  回车
+
+2）重启网络服务：service  network  restart
+# service  network  restart
+# ifconfig     查看到IP地址
+
+3）使用SSH连接Linux
+打开SSH Secure Shell -> Secure Shell Client
+   -> Quick Connect  快速连接
+   Host Name: 192.168.111.2   主机名
+   User Name: root   用户名
+   Port: 22  默认端口   -> 点击Connect 连接
+
+连接不上，原因：
+1）服务器down机：已经排除
+2）网络连接问题： 如何检查？ 
+ Windows/Linux/Unix通用： ping 对方IP
+ 原理：不断向对方发送数据包，查看是否收到
+    如果收到，会显示传输的时间；
+    如果未收到，会显示连接超时 Timeout.
+从Windows连Linux:  cmd中  ping 192.168.111.2
+从Linux连Windows:  # ping 192.168.111.1
+ 如果结果源源不断，通过ctrl+c 结束当前进程。
+3）防火墙级别是否太高？
+关闭防火墙：iptables  -F
+# iptables  -F
+
+再使用SSH连接Linux...
+  输入192.168.xxx.2     root
+  输入密码：123456
+   
+SSH字体大小：
+ Edit -> Settings -> Global Settings -> Appearance
+    -> Font   比如：Consolas字体   16~20号
+
+如果选择桥接方式：（网络设置第1项）
+ VM -> Settings -> Network Adapter 网络适配器
+  改为第1项 桥接方式
+ 要求：Linux的IP要和本地连接在同一网段中
+  本机IP: 172.166.100.82     本地连接IP
+  Linux IP: 172.166.100.101   重新设置 netconfig
+  再：service network restart  重启网络服务
+  再：iptables -F      关闭防火墙
+
+七、Linux/Unix常用命令
+1、命令：command
+ 通过词句、键盘操作和系统交互，通知Linux系统执行某些操作。
+2、命令的基本组成： 命令名  选项   参数
+ 命令名：表示主要功能
+ 选项：表示附加功能    可选的、可以组合使用
+ 参数：操纵的资源      可选的、可以跟多个
+  三部分之间至少隔一个空格
+        命令名  [-选项...]   [参数 ...]
+比如： javac                  Hello.java
+        java                    Hello.class
+        iptables    -F
+        ls
+        ls            -l
+        ls            -al
+        ls            -l         1.txt
+在何处敲命令？命令行窗口
+ 也称为：终端、控制台、Shell、Console...
+
+思考：我是谁？我在哪儿？我有什么？到哪儿去？
+
+3、我是谁？查看用户身份
+1）查看最初登录用户身份：who am i
+root     pts/0        Dec 16 15:45 (192.168.111.1)
+用户名  伪终端号       登录时间    从这个IP机器登录的
+         区分不同终端
+root     pts/1        Dec 16 16:36 (192.168.111.1)
+
+Linux/Unix特点：典型的多用户管理系统
+
+2）查看当前用户名：whoami
+还是root
+3）查看当前用户详细身份：id
+uid=0(root) gid=0(root) 
+所有Linux/Unix统一规律：root用户 uid和gid都是0 
+                             属于root组
+用户id：0   用户名：root    组id: 0   组名：root
+
+4）查看当前在线用户情况：who
+root     tty1         Dec 16 11:41  服务器本地登录      
+root     pts/0        Dec 16 15:45 (192.168.111.1)
+root     pts/1        Dec 16 16:36 (192.168.111.1)
+
+4、我在哪儿？查看当前工作目录  pwd
+全称：Print Working Directory
+# pwd          结果是/root
+                     /目录（根目录）下的 root子目录 下
+ /root 目录：是root用户的主目录（Home Directory）
+      是用户登录后默认所在的目录，普通用户只有在其主目录中才拥有大量权限。
+
+技巧：查看Linux图形界面
+        startx
+  返回字符界面：点击红帽子 -> 注销
+
+5、我有什么？查看目录下内容  ls
+# ls   查看当前目录下的内容，包括文件和目录
+anaconda-ks.cfg   install.log    install.log.syslog
+
+# ls -l   以长列表方式查看文件/目录的详细属性
+文件类型 权限   属主  属组  大小  最后一次修改时间
+-rw-r--r--  1  root   root  967 2016-12-16  ana.cfg
+             硬链接数                           文件/目录名
+文件的属性：除了文件名、文件内容之外的信息
+1）文件类型： - 文件   d 目录
+2）权限：rw-r--r--
+3）属主：文件的创建人、拥有者
+4）属组：该用户属于哪个组
+5）大小：967 Byte   单位：字节
+6）最后一次修改时间：2016-12-16
+
+6、去别处？改变工作目录： cd  目录路径名
+         Change Directory
+1）常见的路径表达法
+<1> 绝对路径：从/开始表示的路径
+       /root
+       /root/1.txt
+       /etc
+       /etc/passwd
+<2> 当前路径：当前所在目录的路径   pwd查看
+       /root下
+<3> 相对路径：相对于当前路径表示的路径
+       1.txt
+2）特殊的目录：
+<1> .   当前目录
+<2> ..  上一层目录
+
+比如：目前在/root下，想到/下
+方法1：cd  /      绝对路径
+         cd  /root  绝对路径
+       或 cd  root  相对路径
+方法2：cd  ..     去上一层目录
+ pwd 在/下：
+/目录下常用的目录说明：
+<1> /bin目录：常用的系统命令  比如ls  pwd ...
+<2> /etc目录：常用的系统配置文件
+             /etc/passwd   管理用户账户信息
+<3> /root目录：root用户的主目录
+<4> /home目录：普通用户主目录所在的目录
+<5> /boot目录：系统启动目录
+
+练习：进入/bin目录下，查看有什么，哪些认识？
+# cd /bin
+# pwd
+# ls
+
+归纳：
+1、安装Linux系统
+2、配置系统网络环境
+3、学习常用命令
+
+常用的Linux命令：
+1）查看ip地址：ifconfig
+2）配置网络：netconfig
+3）重启网络服务：service network restart
+4）关闭防火墙：iptables -F
+5）查看网络是否可达：ping 对方IP
+6）结束控制台当前进程：ctrl + c
+7）退出登录：exit
+8）查看最初登录用户身份：who am i
+9）查看当前用户名：whoami
+10）查看当前用户详细身份：id
+11）查看当前在线用户：who
+12）查看当前工作目录：pwd
+13）查看目录下内容：ls
+14）查看目录下内容详细属性：ls -l
+15）改变工作目录：cd 目录路径名
+路径表达法：绝对路径、当前路径、相对路径
+特殊目录：.  当前目录  ..  上一层目录
+

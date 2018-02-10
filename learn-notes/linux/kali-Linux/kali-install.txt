@@ -1,0 +1,35 @@
+  kali linux怎么换成中文显示
+  dpkg-reconfigure locales
+  选择字符编码：en_US.UTF-8、zh_CN.GBK、zh_CN.UTF-8
+  
+  kali Linux 安装中文输入法
+  apt-get update
+  apt-get install fcitx
+  apt-get install fcitx-googlepinyin
+  reboot
+
+  判断kali版本
+  lsb_release -a
+  打开/etc/apt/sources.list并添加“中科大”更新源 。添加好中科大源后对源、软件包进行整更新：apt-get update && apt-get upgrade
+  
+  #中科大
+  deb http://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib
+  deb-src http://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib
+
+  #浙大
+  deb http://mirrors.zju.edu.cn/kali kali-rolling main contrib non-free
+  deb-src http://mirrors.zju.edu.cn/kali kali-rolling main contrib non-free
+
+  #东软大学
+  deb http://mirrors.neusoft.edu.cn/kali kali-rolling/main non-free contrib
+  deb-src http://mirrors.neusoft.edu.cn/kali kali-rolling/main non-free contrib
+
+  #重庆大学
+  deb http://http.kali.org/kali kali-rolling main non-free contrib
+  deb-src http://http.kali.org/kali kali-rolling main non-free contrib
+
+  #官方源
+  deb http://http.kali.org/kali kali-rolling main non-free contrib
+  deb-src http://http.kali.org/kali kali-rolling main non-free contrib
+
+  

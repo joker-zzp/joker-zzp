@@ -1,0 +1,451 @@
+郑学晶
+zhengxj@tadu.cn
+QQ:2269576013
+
+一、Selenium概述
+1、Selenium是针对Web应用程序的功能自动化测试工具
+
+2、Selenium适用于回归测试和兼容性测试
+
+3、Selenium特点：支持“三多”
+（1）支持多平台：windows、linux、mac等
+（1）支持多种浏览器：Firefox、Chrome、IE、欧朋、Safari等
+（2）支持多种编译程序语言：Java、Python、Ruby、C#等
+
+4、Selenium优点：
+（1）支持“三多”
+（2）开源免费
+（3）代码更小巧灵活
+
+（5）getAttribute方法：获取指定页面元素的指定属性，参数是属性名称
+常用：文本框有一个value属性，记录文本框的内容
+（4）更容易整合到其他测试平台
+
+5、Selenium缺点：
+（1）只支持Web应用程序，不支持客户端类应用程序
+（2）学习成本高
+
+6、Selenium组件：
+（1）Selenium Core：核心，JS库
+（2）Selenium IDE：是Firefox的一个插件，支持录制和回放，以及转换代码格式
+（3）Selenium RC：Remote Control,支持“三多”，是1.0版本的主要组件
+（4）Selenium Grid:并行执行多个测试任务来提升测试效率
+（5）Selenium WebDriver：是2.0组件，支持“三多”（重点）
+
+6、Selenium自动化测试的流程（适合初学者）
+（1）制定测试计划
+（2）准备测试用例
+（3）使用Selenium IDE录制
+（4）转换为高级语言代码
+（5）使用高级语言增强代码
+（6）结合其他工具批量运行
+（7）测试总结报告
+
+7、Selenium测试代码包含哪些内容：
+（1）定位界面元素----难点
+（2）操作界面元素
+（3）校验页面元素
+（4）记录测试结果
+
+8、Selenium官网：
+http://seleniumhq.org/
+
+二、Selenium IDE
+1、安装：
+（1）前提准备：
+        a.Firefox 23.0.1 , 建议安装在默认安装路径下
+C:\Program Files\Mozilla Firefox
+        b.取消Firefox的自动更新：工具\选项\高级\更新\选择“不检查更新”点击OK
+
+（2）离线安装：
+	a.下载Selenium IDE的安装文件
+	b.启动Firefox
+	c.将安装文件拖拽到Firefox
+	d.点击"立即安装"
+	e.重启Firefox
+
+（3）在线安装：
+	a.启动Firefox
+	b.工具\附加组件\获取附加组件\右上角输入Selenium IDE，点击“搜索”
+	c.在搜索结果中找到Selenium IDE插件本身，点击其后的"安装"
+	d.重启Firefox
+（4）检查安装是否成功：Firefox\工具\Selenium IDE
+
+（5）注意：Firefox版本和Selenium IDE版本兼容
+
+2.Selenium IDE界面
+（1）Selenium IDE代码组织形式：
+	a.Test Suite：测试套件，是测试用例的集合
+	b.Test Case:测试用例，是测试步骤的集合
+
+（2）两个存放当前测试用例步骤的视图：
+	a.Test 视图：用表格的形式记录测试步骤
+	b.Source视图：用源代码的形式记录测试步骤，默认是HTML格式
+注意：这两个视图的代码是一一对应的
+
+（3）Table视图中的三个列：
+	a.Command列：命令列，描述操作的动作
+	b.Target列：目标列，记录命令的第一个参数，一般描述的操作页面元素，使用element locator（页面元素定位表达式）的形式来描述
+	c.Value列：值，记录命令的第二个参数值,一般描述操作时使用的数据
+
+（4）其他视图：
+	a.Test Case视图：记录当前测试套件包含的测试用例列表，其中加粗字体为当前测试用例
+	b.Log视图：记录运行日志，包含错误信息
+	c.Reference视图：记录参考信息，描述当前步骤的命令语法
+
+（5）几个快捷操作按钮：
+	a.红色圆点：录制和停止录制，按下的状态表示正在录制，平面状态代表已经停止录制
+	b.FastSlow:调整运行速度，默认总是最快
+	c.三角一个横线：运行当前测试用例
+	d.三角三个横线：运行整个测试套件
+
+（6）Table视图的编辑区域的两个按钮：
+	a.Find：查找当前Targert列中element locator能定位到哪个页面元素
+	b.Select：通过选择页面上的元素来生成其的element locator，一般用于修改步骤操作的页面元素
+
+3、使用Selenium IDE录制和回放流程：
+（1）启动Firefox
+（2）打开被测系统
+（3）打开Selenium IDE：工具\Selenium IDE
+（4）确认录制按钮是否被按下
+（5）在被测系统上按照测试用例的步骤来操作
+注意：录制的过程中不要点击Table视图的步骤
+（6）点击录制按钮来停止录制
+（7）保存：
+	a.先保存测试用例：文件\Save Test Case或者使用快捷键Ctrl+s，输入测试用例名称.html，保存
+
+	b.在保存测试套件：文件\Save Test Suite，输入测试套件名称.html，保存
+建议：测试用例以TC开头，测试套件名称以TS开头
+（8）运行：
+	a.运行整个测试套件：菜单下Actions\play entire suite，或三角三个横线按钮
+	b.运行当前测试用例：菜单Actions\Play current test case,或者三角一个横线按钮
+	c.从指定步骤开始运行：在指定步骤上点击右键，选择Set/Clear Start Point ,在运行当前测试用例
+	d.运行单个步骤：双击步骤
+注意：运行之前需要把被测系统打开，操作到待运行步骤的可操作状态
+（9）查看运行结果
+	a.查看Test Case视图下发，结果区域展示为绿色状态条代表运行正常，红色代表出现失败，Runs代表运行测试用例数，Failures代表失败数
+	b.查看Test Case视图的背景色
+	-绿色代表运行正常
+	-红色代表出现失败
+	-白色：未运行
+	
+	c.查看Table视图中的背景色
+	-黄色：正常运行
+	-浅绿色：运行完成，Done
+	-深绿色：断言成功，passed
+	-浅粉色：出现警告，Warning
+	-深粉色：运行出错或断言失败，Error或者Failed
+	d.查看Log
+	黑色字体：正常执行日志
+	红色字体：警告、错误、失败
+
+4.注意事项：
+（1）Selenium IDE只支持Firefox，不支持其他浏览器
+（2）建议在录制之前和回放前都启动被测系统
+（3）需要保证回放之前被测系统的状态和回放之前录制前的状态一致
+例如：录制登录的业务之前，被测系统处于无账户登录的状态，回放之前也需要让所有账户退出
+（4）不建议将两个被测系统的用例放入一个套件中
+（5）打开时建议使用Open Test suite来打开整个测试套件，不建议使用Open 来打开测试单个测试用例
+
+5.常见回放错误
+（1）[error]Timed out after 30000ms = 30s
+原因：在指定的超时时间内没有完成相应的动作
+解决方案：设置超长时间为更长
+Selenium IDE\Options\Options\Default timeout ......默认的30000毫秒修改为更长时间，如60000
+
+（2）[error]Unexpected Exception: Error:Access to 'http://...' from script denied...(错误信息很多)
+原因：回放前忘记打开被测系统
+
+（3）[error]Unknown command:'open123'
+原因：出现未知命令
+解决方案：检查命令名称是否正确，注意前后是否有空格
+
+（4）[error]Element xxxxxxx not found
+原因：使用Target列的element locator无法定位在被测系统中当前网页中的一个元素
+具体原因：
+	a.locator书写错误，调查方式使用Find查找
+	b.步骤顺序错误
+	c.运行速度太快，一个步骤执行后需要等待被测系统中出现指定元素
+解决方法：
+	a.使用Select重写生成locator
+	b.观察被测系统的页面是否存在希望识别到的元素
+	c.将速度调慢，也可以在代码中增加暂停pause的步骤（参数是毫秒）
+
+6.修改代码：
+（1）增加一个步骤：
+	a.在相应位置的下一行点击右键，菜单中选择Insert New Command插入新命令（插入新步骤）
+	b.输入Command，查看Reference视图的帮助信息，来填写相应的数据
+原则：第个参数写在Target列可以借助Select按钮生成locator
+
+（2）补录
+	a.光标定位在待补录位置的下一行
+	b.被测系统的状态准备好
+	c.点击录制按钮
+	d.在被测系统上操作
+	e.在次点击录制按钮来结束补录
+	f.删除多余的动作，如selectWindow
+	
+（3）插入注释：
+	a.某个步骤上点击右键，选择Insert New Comment 
+	b.步骤前的空白行中的Command列输入注释的文字
+	c.在Table视图中注释显示为紫色字体，运行时不参与运行
+
+2016年11月29日9:06:43
+
+一、修改代码
+1.在一个测试套件中新建一个新的测试用例
+	a.打开被测系统
+	b.打开测试套件
+	c.在Test Case视图右键菜单中选择New Test Case
+	d.点击录制按钮，录制步骤，停止录制
+	e.保存当前测试用例，在保存测试套件
+
+2.在一个测试套件中增加已有的测试用例
+	a.制作一个测试用例
+	b.打开测试套件，在Test Case视图右键菜单中选择Add Test Case 
+	c.选择a步骤所制作的测试用例
+	d.保存测试套件
+
+二、Selenium命令（Selenese）
+1.Selenium命令分为三类：
+（1）Action命令：操作动作，如点击输入、选择等
+（2）Accessor命令：辅助/储存数据类动作，如存储数据到变量、存储网页标题到变量等
+（3）Assertion命令：断言预期和实际是否相等，如断言网页标题是否正确、断言提示信息是否等于预期值等
+
+2.常用的Action命令：
+（1）open（url）：打开指定的url对应的网页，并且等待该网页加载完成，当到达超时时间时，会报超时错误：Timed out
+说明：url可以是绝对路径，也可以是相对路径
+绝对路径：完整的网址
+file:///D:/Selenium%E5%B7%A5%E5%85%B7/Selenium1/example/message.html
+相对路径：相对于BaseUrl（完整网址-BaseUrl）
+/ws/ecshop/upload/index.php
+	a.在网页中做第一个操作动作时，自动在该动作前加open命令
+	b.在网页中右键中选择show All Available Commands\open ......
+
+（2）setTimeout（超时时间）：设置当前测试用例的超时时间为固定的毫秒数
+注意1：其他未设置超时时间的测试用例使用默认超时时间
+注意2：该动作需要些在使用超时时间步骤之前，如哦open
+
+（3）type（locator，值）：向指定的页面元素中输入指定的数据值，一般操作文本框
+注意：值如果是常量，直接书写在value列，不需要加双引号
+
+（4）click（locator）：单击指定的页面元素，一般操作按钮、连接、复选框、单选按钮等
+注意：click命令只完成点击动作，不会等待网页加载完成
+
+（5）clickAndWait（locator）：单击指定的页面元素后等待网页加载完成，一般操作按钮或者连接等
+
+（6）echo（信息）：将指定的信息输出到log中，一般用于调用代码，参数可以使常量，也可以是变量
+注意：常量不需要加双引号，变量中取值使用以下形式${变量名称}
+
+（7）pause（等待时间）：等待固定的时间，时间单位是毫秒
+
+（8）select（下拉框locator，选项locator）：选择下拉框的某个选项
+
+（9）selectAndWait（下拉框locator，选项locator）选择下拉框的某个选项，并且等待网页加
+
+3.常用的Accessor（存储）命令：
+变量的使用规则：
+	a.变量不需要定义，直接就可以使用
+	b.变量名称一般以英文开头，后面可以使英文或数字
+	c.变量赋值直接书写变量名称
+	d.从变量中取值需要使用${变量名}
+
+（1）store(值,变量名称)：将值赋值给变量
+注意：参数的顺序
+
+（2）storeTitle(变量名称)：将当前网页的标题存储在变量中
+注意：参数只有一个
+录制过程中加入storeTitle命令：
+	a.在当前网页任意位置上点击右键，选择右键菜单中Show All Available Commands\storeTitle,在弹出窗口中输入变量名称，Ok
+注意：录制过程中加入storeTitle命令后，需要修改参数个数
+
+（3）storeText(locator，变量名称)：将指定的页面元素的值存储在变量中，一般操作纯文本、连接等
+
+（4）storeValue（locator，变量名称）：将指定页面元素的值存储在变量中，一般操作文本框、按钮、复选框（on\off）、单选按钮（on\off）等
+
+4.常见的Assertion命令
+（1）assertTitle（预期值）：断言当前网页的标题是否等于预期值，一般用于检查网页是否正常跳转
+录制过程中加入assertTitle命令的语句：在当前的网页上任意位置点击右键，选择菜单中的show all available commands 下的assertTitle
+
+（2）assertText(locator，预期值)：断言指定页面元素的文本值是否等于预期值，一般针对纯文本、连接等 
+
+（3）assertElementpresent(locator)：断言指定的页面元素出现（在当前网页中存在），一般用于检查网页是否正常跳转
+
+（4）assertValue（locator，预期值）：断言指定页面元素值的值是否等于预期值，一般针对文本框，按钮复选框（on\off），单选按钮（on\off）等
+
+（5）assertAlert（预期值）：断言弹出窗口中的提示信息内容是否等于预期值
+注意：
+	a.点击“确定”关闭提示框，就可以增加该断言命令的步骤
+	b.运行代码是，看不到提示框
+	c.录制时和回放时，提示信息中的换行符可能识别不准确
+
+5.Assertion又分为：----了解
+（1）assert开头：一旦失败就停止运行，一般用于做重要检查
+（2）verify开头：一旦失败，记录失败但是不停止运行，一般用于做次要检查
+（3）waitFor开头：等待到达用预期条件，于检查指定的条件变为真，如果条件不成立，等待，等待到达超时时间时，才会记录失败，并且继续运行。一般用于AJAX应用
+
+二、WebDriver
+1.Selenium IDE优点：支持录制，有图形化界面，适合初学者入门
+2.Selenium IDE缺点：
+（1）只支持Firefox 
+（2）无法自动和关闭浏览器
+（3）功能有限
+3.搭建WebDriver环境：（Java）
+（1）准本jdk，准备MyEcliPse\Eclipse
+（2）从Selenium官网下载Java驱动文件（selenium-java-2.44.0.zip）
+（3）启动MyEclipse，使用菜单File->New->Java Project创建工程，输入工程名称，点击Next
+（4）配置工程：
+	a、切换到第3个选项卡（Libraries）
+	b、点击“Add External JARs”按钮，选择第（2）步骤准备文件夹中的selenium-java-2.44.0.jar，单击“打开”
+	c、点击“Add External JARs”按钮，选择第（2）步骤准备文件夹中libs文件夹内的所有文件，点击“打开”
+	d.点击Add Lidrary按钮，选择JUnit，Next，选择JUnit4，Finish
+	e.点击Finish
+
+4.从selenium IDE 复测试用例
+（1）在selenium IDE录制调试
+（2）转换source视图中代码格式：
+	a.开启转换功能：
+	selenium IDE-options-options-勾选“Enable experiment featrues”复选框，
+	b.转换格式：
+	selenium IDE-options-Format-Java-Junit 4-WebDriver，点击“确定”
+（3）在Source视图中全选后赋予到剪切板
+（4）转换source视图中代码格式回默认格式：
+	Selenium IDE-options-Format-HTML，点击确定
+（5）在MyEclipse的Selenium工程的src下创建一个包，在创建一个类
+（6）删除类中默认代码，粘贴板上的内容
+（7）调整代码
+	a.修改包声明和所在的包一致
+	b.修改类名和类文件名一致
+（8）运行代码：右键-run sa-Junit Test
+（9）查看结果：MyEclipse出现的JUnit视图内的状态条，绿色代表成功，很少代表失败
+
+5.WebDriver代码常见回放错误：
+（1）错误：无法启动Firefox
+原因：Firefox版本不正确，或者Firefox未安装在默认路径下
+解决方案：重新安装Firefox，或者指定安装路径在driver = new FirefoxDriver();前面，增加设置路径的步骤
+System.setProperty("webdriver.firefox.bin", "C:\\Program Files\\Mozilla Firefox\\firefox.exe");
+
+（2）错误：Firefox
+原因：url是绝对路径
+解决方案：
+
+（3）错误：启动Firefox，地址栏一直为空
+原因：系统文件hosts被修改过
+解决方案：C：\WINDOWS\system32\drivers\etc文件夹下的hosts文件，只保留一个有效行172.0.0.1   localhost 
+
+三、WebDriver集成JUnit 4
+1、集成目的：
+  1）JUnit提供了断言方法
+  2）JUnit提供了批量运行机制
+  3）JUnit提供了简介明了的测试结果报告
+  4）JUnit提供了注解，更方便管理测试代码：
+       a、JUnit测试套件类：包含多个测试用例类
+       b、JUnit测试用例类：包含多个测试方法
+       c、测试方法：包含多个测试步骤
+2、JUnit测试用例类主要的注解：
+  1）@Test：测试方法：
+       a、JUnit测试用例类至少要有一个测试方法
+b、实现主要的业务步骤，包括打开网页，操作动作，断言语句等
+  2）@Before：初始化方法：
+       a、JUnit测试用例类最多有一个初始化方法
+       b、实现初始化工作，如启动浏览器
+       c、初始化方法在每个测试方法前都执行
+  3）@After：收尾方法：
+       a、JUnit测试用例类最多有一个收尾方法
+       b、实现收尾工作，如关闭浏览器
+       c、收尾方法在每个测试方法后都执行
+
+4、增加一个测试方法：
+  1）参照已有的测试方法声明一个新的测试方法
+*注意：方法的注解必须是@Test
+  2）从selenium IDE录制一个测试用例，调试
+  3）复制步骤：
+      a、设置剪切板上代码格式：
+               selenium IDE-options-clipboard format-java-Junit 4-webDriver
+      b、从Table视图中选中步骤，复制
+      c、在第（1）步声明的空测试方法中粘贴
+      d、如果是绝对路径url，需要删除baseUrl+部分
+
+补充：只运行一个测试方法，需要双击测试方法名，在方法名上点击右键选择Run
+
+一、测试各种浏览器
+1.Firefox
+（1）启动默认路径的Firefox
+driver = new FirefoxDriver();
+
+（2）启动非默认路径的Firefox
+System.setProperty("webdriver.firefox.bin", "C:\\Program Files\\Mozilla Firefox\\firefox.exe");
+
+2.Chrome
+(1)准备：
+	a.安装Chrome： 35
+	b.从Selenium官网下载chromedriver.exe
+(2)启动默认安装路径下的Chrome：
+   System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
+  driver = new ChromeDriver();
+
+3.IE
+（1）
+
+二、JUnit 4测试套件类：
+1.一个测试套件中可以包含多个测试用例
+2.模板：AllTests.java 将测试用例类名称加入到addTest的行中
+
+三、书写JUnit 4测试用例类：
+1.在某个包上点击右键，选择菜单New下的Other，在弹出的New窗口中输入JUnit，在搜索结果中选择JUnit Test Case，点击“Next”
+
+2.在Name中输入类名，勾选“setUp”和“setDown”前的复选框，点击“Finish”
+
+3.在该类中，复制@After注解的方法，修改测试方法名称和注解为@Test
+注意：导入org.junit.Test
+4.在类的内部所有方法外部定义一个变量driver，语法：WebDriver driver；
+
+5.在@Before方法中书写启动浏览器的步骤：
+例如：
+启动Firefox语法：driver = new FirefoxDriver();
+
+6.在@After方法中书写关闭浏览器的步骤，语法：driver.quit();
+
+7.在@Test方法中书写打开指定浏览器的步骤，语法：driver.get("url");
+
+8.在测试方法值适当添加等待固定时间的步骤，语法：Thread.sleep(毫秒数);
+
+四、定位页面元素----重点
+1.id定位：使用页面元素的id属性值来定位，最快速度最直接的定位方式，
+
+2.name定位：使用页面元素的name属性来定位，一般name属性值不重复，建议使用
+
+3.className定位：使用class属性值来定位，因为有可能定位到多个，所以不建议使用
+注意：调查源代码时，属性名称是class，WebDriver中定方法名称是className
+
+总结：System 使用setpropperty方法的第一个参数（设置的属性名称）
+	a.webdriver.firefox.bin 其值是firefox安装目录+启动文件名称
+	b.webdriver.chrome.driver其值是chrome.exe的所在目录+文件名
+	c.webdriver.ie.driver 其值是IEDriverServer.exe的所在目录+文件名
+补充：findElment 返回的是满足参数条件的第一个一面元素
+findElment返回的是满足参数条件的所有页面元素
+
+5.linkText定位：使用连接的文本来定位
+连接：标签名称为a的元素
+连接的文本：在<a>和</a>之间的全部文本
+
+6.partialLinkText方法：使用连接的一部分文本定位，建议使用
+
+注意：选择能够代表本连接的一部分关键文本作为参数
+
+7.xpath定位：使用xpath表达式技术描述页面元素在整个页面源代码中所处的位置来定位，功能很强大，效率较低
+
+（1）xpath：本来是在XML文档中通过描述路径的方式找节点的技术，也适用于HTML中查找节点
+
+（2）xpath表达式分为：
+	a.绝对路径xpath表达式：尽量不要使用
+	例：/html/body/div[1]/div[2]/ul/li[1]/font/a[1]/img
+	b.相对路径xpath表达式：建议尽量使用，因为更容易维护
+	例：.//*[@id='ECS_MEMBERZONE']/a[1]/img
+（3）利用FirePath来生成xpath表达式（重点）
+	a.启动Firefox，打开被测系统
+	b.使用F12快捷建启动Firebug
+	c.点击切换到firePath
+	d.点击寻找按钮
+	e.点击网页中关心的页面元素
+	f.从firePathde 文本框值获得xpath表达式

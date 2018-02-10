@@ -1,0 +1,546 @@
+一、JMeter概述
+1、JMeter是什么？
+1）Apache JMeter是Apache开源组织开发的纯Java桌面应用，用于进行压力测试和性能测量。
+2）JMeter最初被设计用于Web应用测试，后来扩展到其他测试领域。
+3）JMeter可用于对静态和动态资源的性能进行测试，资源包括：
+   文件、Servlet、Web动态语言、Java对象、数据库和查询、FTP服务器等；
+4）JMeter可用于对服务器、网络或对象模拟大并发下繁重的负载，来测试不同压力情况下的整体性能；
+5）JMeter提供了图形化的结果，供用户进行性能分析。
+
+2、JMeter的优点：
+1）能够对HTTP和FTP服务器进行压力和性能测试，也可以对任何数据库进行同样的测试（通过JDBC）。
+2）纯Java开发，具备完全的可移植性。
+3）完全Swing和轻量组件支持包。
+4）完全多线程：通过多个线程并发取样、通过单独的线程组对不同的功能同时取样。
+5）精心的GUI设计允许快速操作和更精确地计时。
+6）缓存和离线分析/回放测试结果。
+7）完全开源，可以对JMeter进行定制化的二次开发，扩展自己所需的插件。
+
+3、JMeter的缺点：
+1）无类似LoadRunner的IP欺骗功能。
+2）录制功能需要借助于第三方工具Badboy或者使用浏览器进行代理录制，相对繁琐。
+3）报表类型较少，不如LoadRunner报表齐全。
+4）工具入门比LoadRunner困难些。
+5）场景设计比LoadRunner复杂。
+6）纯多线程模式，不支持进程模式。
+7）参考资料较少，普及程度较LoadRunner低。
+8）场景控制及干预不如LoadRunner方便，如无法在压力测试过程中，人工增加并发用户数。
+9）大并发时，结果数据不是很准确。
+
+4、JMeter支持的协议：
+Web: HTTP、HTTPS
+SOAP  简单对象访问协议
+FTP
+JDBC
+LDAP  轻量目录访问协议
+面向消息的中间件（通过JMS）
+邮件：SMTP(S)、POP3(S)、IMAP(S)
+MongoDB(NoSQL)
+TCP
+原生命令或Shell脚本
+
+二、JMeter的安装和使用
+1、安装
+官网：http://jmeter.apache.org/
+下载：apache-jmeter-2.12.zip  （当前最新版本）
+安装方法：解压缩即可
+前提：JMeter是基于Java的桌面应用，需要安装JDK（1.6版本以上），
+      并配置好JDK的环境变量JAVA_HOME
+启动方式：在JMeter的bin目录下
+    jmeter.bat （适用于Windows批处理文件）--双击即可启动JMeter
+    jmeter.sh （适用于Linux的脚本文件） 
+
+2、主要功能模块
+1）测试计划（Test Plan）
+ --类似于LoadRunner中的场景
+ 启动JMeter之后，默认打开一个测试计划；
+ 测试计划用来描述一个性能测试，包含与本次性能测试相关的所有执行步骤以及报表；
+ 包含：一个或多个线程组、逻辑控制、取样发生控制、监听器、定时器、断言和配置元件。
+
+2）线程（Threads(Users)）
+ -- 类似于LoadRunner中的虚拟用户
+ 每个测试计划的第一步就是添加线程组；
+ 线程组里可设置需要模拟的并发用户数、并发时间或并发次数、线程的启动频率。
+ JMeter线程组分为3类：
+ <1> setUp Thread Group: 进行测试前的初始化工作
+     -- 相当于JUnit中的setup，类似于LoadRunner脚本中的init部分                    
+ <2> tearDown Thread Group: 进行测试结束后的垃圾回收等清理工作
+     -- 相当于JUnit中的teardown，类似于LoadRunner脚本中的end部分
+ <3> thread Group（线程组）: 最为常用
+     -- 相当于LoadRunner脚本中的Action部分
+         一个线程相当于LoadRunner中 的一个虚拟用户，这些线程在脚本运行后无法变动，
+      而LoadRunner可以在执行过程中人工干预。
+
+3）测试片段（Test Fragment）
+  测试片段是控制器上一种特殊的线程组；
+  区别在于：一般不被执行，只有作为一个模块控制器或被控制器所引用时，才会被执行。
+  2.11后的版本，新增了保存测试片段的功能。
+
+4）取样器（Sampler）
+  是性能测试中向服务器发送请求并等待响应的最小单元，每个采样器可以设置不同的属性。
+  常用的JMeter取样器：
+   HTTP请求、FTP请求、Java请求、JDBC请求、SOAP/XML-RPC请求、Junit请求、JMS请求、
+   TCP请求、STMP请求......
+
+5）逻辑控制器（Logic Controller）
+  逻辑控制器可以自定义JMeter发送请求的行为逻辑，结合Sampler使用可以模拟复杂的请求序列。
+  常用的逻辑控制器：
+   if Controller、While Controller、Runtime Controller、事务控制器、随机控制器、交替控制器、
+ 吞吐量控制器、模块控制器等。
+   添加方式： 添加 -> 逻辑控制器 -> ...
+
+6）监听器（Listener） 
+  监听器对JMeter测试结果进行收集处理并进行可视化展现的一系列组件，包括：
+    发送的请求数据、返回的结果数据、相应时间的统计、吞吐量、错误率、返回结果状态等信息。
+  场景的监听器：
+    图形结果、查看结果树、用表格查看结果、聚合报告等。
+
+7）配置元件（Config Element）
+  维护Sampler需要的配置信息，并根据实际的需要修改请求的内容，如：
+    HTTP、LDAP、Java等默认值，JDBC以及MongoDB配置信息等；
+    最常用的：CSV Data Set Config 或 使用随机参数进行参数化。
+  为了简单，建议将配置元件放在请求开始之前。
+
+8）定时器（Timer）
+ -- 类似于LoadRunner中的思考时间
+ 设置目的: <1> 为了更真实模拟用户并发行为； 
+            <2> 控制每个线程之间的请求间隔时间，减少服务器的压力。
+
+9）断言（Assertions）
+ -- 类似于LoadRunner中的检查点
+ 通过对比返回的响应数据与预期数据，用来判断请求是否成功，压力测试的前提是保证功能的正确。
+ 常用的断言：响应断言、XML断言、HTML断言、XPath断言等。
+
+10）前置处理器（Per Processors）
+  用来修改请求的设置。
+  比如Html URL重写修复符可以实现URL重写，当URL中有类似SessionID一类的Session信息时，
+ 可以通过该处理器填充发出请求的实际SessionID。
+
+11）后置处理器（Post Processors）
+ -- 类似于LoadRunner中的关联
+  用于对Sampler发出请求后得到的服务器响应数据进行处理。
+  一般用来提取响应中的特定数据，比如用后置处理器中的正则表达式提取器对服务器返回的特定数据
+ 进行关联。
+
+3、JMeter基本使用
+1）测试计划
+ 测试计划是JMeter使用的起点，是其它JMeter测试元件的容器，每个测试场景/脚本都包含一个测试计划、就是一个测试计划。
+ 如图：
+ <1> 名称：测试计划的名称
+ <2> 注释：测试计划的注释
+ <3> 用户定义的变量： 用户可自定义变量，使用时的语法: ${变量名}
+        例如：设置变量名 username， 值 Tom
+               直接使用${username} 就指代变量的值Tom
+      变量特点：全局变量，作用于整个测试计划
+ <4> 独立运行每个线程组：勾选后，所有线程组都是顺序执行的。
+        说明：一般不勾选，让所有线程组并发执行
+ <5> Run tearDown Thread Group after shutdown of main threads:
+       线程结束运行后，停止主线程。
+        说明：Java中线程由主线程启动。
+ <6> 函数测试模式： 勾选后，会有详细的请求记录。
+        说明：由于比较消耗资源，严重影响客户端性能，所以一般不勾选。
+ <7> Add directory or jar to classpath：向类路径中添加目录以及Jar包。
+        说明：类路径为 %JMeterHome%\lib
+        比如：需要JDBC的驱动程序，就需要将jar包加入其中
+        
+2）Vuser及场景设计
+基本思路：在测试计划中新建一个线程组，可完成JMeter场景设计、Vuser的设置。
+ 右击测试计划1 -> 添加 -> Threads(Users) -> 线程组
+ 元素说明：
+ <1> 名称：线程组的名称
+ <2> 注释：线程组的注释
+ <3> 在取样器错误后要执行的动作：
+     继续、Start Next Thread Loop 启动下一个线程、停止线程、停止测试、Stop Test Now
+ <4> 线程属性：
+  a) 线程数：相当于LoadRunner中的并发用户数(Vuser)，表示启动多少个线程对被测系统进行并发。
+         比如，设置100，表示100Vuser并发
+  b) Ramp-Up Period(in seconds)：线程间的时间间隔，相当于LoadRunner中Vuser的初始化设置。
+         比如，设置1秒，表示100个线程在1秒内启动。
+  c) 循环次数：请求的重复次数。
+      选择永远，则一直循环请求；
+      不选择永远，输入次数，表示指定循环次数；
+           比如输入1，执行一次；输入0，请求不会执行。
+           请求数=并发用户数 * 循环次数     每个Vuser都执行一次，就是100次请求
+  d) Delay Thread creation until needed: 延迟创建线程，直到需要创建时创建。
+
+ <5> 调度器：控制JMeter测试计划的启动时间、持续时间。
+  a) 启动时间：测试计划的启动时间。 格式yyyy/mm/dd hh:mi:ss
+  b) 结束时间：测试计划的结束时间。
+  c) 持续时间(秒)：测试计划持续时间，优先级高于结束时间。
+  d) 启动延迟(秒)：测试计划启动延迟时间，优先级高于启动时间。
+
+三、JMeter脚本录制
+录制方法：1、使用BadBoy录制； 2、使用JMeter代理录制
+
+1、使用BadBoy录制脚本
+1）下载并安装BadBoy
+ Badboy工具可监控浏览器的活动，提供录制/回放功能，可为JMeter提供录制脚本。
+ 官方网站：http://www.badboy.com.au
+ 下载安装文件：BadboyInstaller-2.1.2.exe
+ 安装后，从开始菜单启动Badboy. 
+
+2）录制脚本
+ 1.在地址栏输入被测系统的URL，比如http://127.0.0.1:1080/WebTours/
+ 2.单击Record On/Off(F2) "开始录制"按钮开始录制 （默认情况：地址栏后的绿色箭头）
+ 3.在Badboy工具内嵌浏览器中对应用进行操作，所有操作记录在左侧Script窗口中
+    效果类似LR中VuGen的Tree视图，是每个Web对象。
+ 4.录制完成，单击工具栏中的Record On/Off(F2) "停止录制"按钮，完成脚本录制。
+ 5.保存脚本：File -> Export to JMeter   文件名 login1.jmx
+     将脚本导出为JMeter脚本格式；
+    若选择File -> Save，可保存为Badboy脚本。
+ 6.使用JMeter打开Badboy录制的脚本。
+   运行JMeter -> 打开 -> 选择login1.jmx 即可。
+
+注意1：必须等到上一步的请求处理完毕后,才能点击发送下一个请求，否则下一个请求会作为第一个请求的子frame.脚本.
+注意2：工具栏中的按钮"N"表示录制模式的切换，默认是Request模式，点击后为Navigation模式。
+  使用Badboy导出脚本到JMeter进行性能测试，必须使用Request模式。其优点是如果测试的网页模板修改了，不影响脚本的回放；缺点是需要添加大量的断点来检查页面上的item.
+  使用Navigation模式（导航）会记录网站交互过程中浏览器中的元素点击动作，当回放Navigation脚本时，除了回放Http请求，Badboy还会模拟浏览器中点击动作；缺点是无法使用其脚本进行性能测试，因为性能测试引擎运行时不显示任何用户界面，所以无法执行Navigation中模拟点击等动作。
+  （Navigation模式下记录的按钮或link的Text或者Id等，对界面的依赖性比较大）
+
+2、使用JMeter代理服务器功能录制
+1）添加线程组：
+     右击左侧"测试计划"（TestPlan）-> 添加 -> Threads(Users) -> 线程组    
+   添加控制器：
+     右击"线程组" -> 添加 -> 逻辑控制器 -> 录制控制器    
+2）添加代理服务器：
+     右击左侧"工作台" -> 添加 -> 非测试元件 -> HTTP代理服务器    
+代理服务器功能界面：
+ <1> 端口：代理服务器的监听端口，默认8080，可修改，要求不能与其它端口号冲突。
+ <2> 目标控制器：录制脚本存放的位置，一般选择：测试计划->线程组，也就是将脚本保存在测试计划的线程组下。
+ 其它选项：
+      使用录制控制器、测试计划->线程组、测试计划->线程组->录制控制器、工作台->HTTP代理服务器。
+ <3> 分组：对请求进行分组，可以选择：每个组放入一个新的控制器。
+ <4> 记录HTTP信息头：自动录制Request的head信息，不需额外配置。
+ <5> 添加断言：录制时自动加入空的检查点，录制后需要手动添加检查内容。
+ <6> Regex matching: 录制时加入空的正则匹配进行关联，录制完成后需要手动添加正则表达式，说明哪里需要关联。
+ <7> Type: 选择服务对应的Http Client版本。
+ <8> 自动重定向：选中该项，当发送Http请求后得到的响应是302/301也就是重定向响应时，JMeter自动重定向到新的页面，比如Https请求跳转，该选项适用于请求方式为head或get时。自动重定向跳转时使用相对路径，一般用于用户退出登录时返回主页面，或者跳转到其他网站的情况；还有一种是跟随重定向，跟随重定向使用相对路径，一般用于用户登录时，根据不同权限、不同角色转发相应的模块。
+ <9> Use KeepAlive: 选中该项时，JMeter和目标服务器之间使用Keep-Alive方式进行HTTP通信，即在一个请求超时之前，JMeter不会向服务器建立一个新的请求链接，默认选中。
+ <10> 从HTML文件获取所有包含的资源：选中此项时，JMeter在发出HTTP请求并获得返回的HTML文本内容后，会获取HTML中包含的所有资源（图片、css、Flash等），默认不选中。
+ <11> 包含模式：类似排除模式，用来控制排除一些不必要的录制元素。
+ <12> 排除模式：录制时许多js、css、png、gif的路径都录制下来，而这些对于测试脚本没有用处，我们可以在HTTP代理服务器的排除模式设置，脚本不记录这些内容。
+   比如，通过正则表达式： *\.(bmp|css|js|gif|ico|jpe?g|png|swf)
+
+3）在"工作台"中添加定时器。右击"工作台"下的"HTTP代理服务器" -> 添加 -> 定时器 -> 高斯随机定时器
+  目的：让JMeter在生成的HTTP请求中自动增加一个定时器。定时器将会使相应的取样器延迟，延迟的规则是：在上一个访问请求被响应并延时了指定的时间后，下一个被定时器影响的取样访问请求才会被发送出去。如果在代理服务器元件里使用了高斯随机定时器，就应该在其中的固定延迟偏移（Constant Delay Offset）设置项中添加${T}  --用于自动引用记录的延迟时间。
+
+4）IE设置。代理服务器配置好后，单机启动按钮，代理服务器开始记录所接收的HTTP请求。
+ 打开浏览器，选择"Internet选项" -> 连接 -> 局域网设置 -> 勾选 代理服务器  地址:localhost，端口:8080
+ 将局域网（LAN）设置中的代理服务器设为localhost，端口为代理服务器端口8080。注意，录制完成后，一定要恢复浏览器的代理服务器设置，否则影响正常上网。
+
+5）开始录制。打开IE窗口，输入网址URL: http://127.0.0.1:1080/WebTours/ ，回车后，测试计划中将录制HTTP请求。在被测系统网页上进行操作，测试计划中继续录制HTTP请求。如果有用Session判断登录的应用，还需要增加Cookie Manager配置元素：选择 右击"线程组" -> 添加 -> 配置元素 -> HTTP Cookie管理器。
+
+6）录制完成后，停止HTTP代理服务器，在录制控制器上右击，将记录的内容保存为一个文件，可重用。录制生成的脚本如图所示。
+
+3、两种录制方式的区别
+1）使用Badboy录制比较简单，不用代理，录制方式与LoadRunner类似，产生的脚本层次清晰。进行常用的基于HTTP协议的脚本更加方便。（常用）
+2）使用JMeter代理录制较为复杂，可以录制更详细的信息，比如URL相关的静态文件（css、jpg等）以及DWR请求。（DWR: Direct Web Remoting -- AJAX开源框架）一种异步请求
+3）综上，简单的HTTP直接用Badboy录制，比较的复杂的应用，带有特殊请求比如DWR，需要使用JMeter代理录制。
+
+四、JMeter关联
+    JMeter也有类似于LoadRunner的关联技术，区别在于，JMeter的关联是基于正则表达式和XPath Extractor等实现的。
+    需求1：针对用户登录产生的sessionId进行关联；
+    需求2：将购票产生的动态数据进行关联。
+    在需要获得数据的请求上右击，"添加"->后置处理器->正则表达式提取器：
+
+正则表达式界面说明：
+<1> 名称：给本次正则表达式命名。
+<2> 注释：对本次正则表达式的注释。
+<3> Apply to：默认即可。
+<4> 要检查的响应字段：与LoadRunner中的Tree视图类似，表示在什么地方提取正则表达式，一般选择主体即可。
+<5> 引用名称：其它地方引用提取值的变量名称，比如这里填写fid，其它位置可以使用${fid}获取动态数据。
+<6> 正则表达式：提取的正则表达式主体，这里是 outboundFlight value=(.*) checked >
+因为，响应中的信息为 outboundFlight value=020;338;01/16/2015 checked >
+ (.*) 表示要提取的内容，左右文本相当于LoadRunner中的左右边界；
+ 如果返回结果是多个相同的值，就用? 代替 .*  表示找到第一个匹配项后，就停止。
+<7> 模板：用$$引用起来，如果在正则表达式中有多个提取表达式，则可以是$1$、$2$等，表示将解析到的第几个值给提取到的变量，正则表达式的提取模式，值从1开始，值0对应的是整个匹配的表达式。
+<8> 匹配数据（0代表随机）：0表示随机，-1表示所有，其余正整数表示对应第几个匹配内容。
+例如：5表示匹配第5个结果值。
+对比：在LoadRunner中，取出的值是一个数组，还需要处理一下；
+       LR 11版本用一个随机的函数即可，不用写大段的代码来处理数组。
+比如：
+    web_reg_save_param("fids",
+                   "LB=左边界文本",
+                   "RB=右边界文本",
+                   "ORD=all",
+                   LAST);
+   //从fid中任意取一个值，保存到变量id中     LR 9.x版本后支持
+   lr_save_string(lr_paramarr_random("fids"), "fid");
+   //后续直接使用 {fid}
+
+<9> 默认值：如果返回结果中没有匹配的值，则变量的值采用默认值。
+例如：如果设定默认值是020;338;01/16/2015，则当正则表达式提取不到匹配的值时，其它地方引用${fid)的值就是默认值。
+
+    正则表达式写好后，将后续请求中相关参数的值使用${fid}替换即可。
+
+例如：
+<input type=hidden name=userSession value=115799.098987444fQfztVzpVftVzzzHDfHDiptQzQcf>
+name=userSession value=(.*)>
+040;350;04/21/2015
+
+五、JMeter参数化 （对比3种方法）
+1、方法一：使用用户自定义变量
+1）在Test Plan中，针对"用户定义的变量" -> 添加
+2）在"名称"中定义变量的名称，比如username，在"值"中定义变量对应的值，比如Tom。
+   针对脚本中需要替换的字面值，进行参数化，将值使用${username}替换。
+   -- JMeter中的变量都是使用${} 替换
+
+2、方法二：使用函数助手里的随机函数进行参数化
+    JMeter中具有函数助手的功能，内置了多个函数，可以使用其中的_Random函数、_threadNum函数或者CSV相关函数进行参数化设置。
+方法1：
+1）JMeter主界面 -> 选项 -> 函数助手对话框   如图
+2）选择一个函数，比如_Random，如图
+ <1> 设定最小值为1
+ <2> 设定最大值为100
+ <3> 函数名称设为num
+ <4> 单击"生成"按钮将生成一个引用字符串${__Random(1,100,num)} 
+      在需要进行参数化的地方替换生成的随机数函数即可。
+
+方法2：
+1）打开函数助手对话框，选择_CSVRead函数
+2）在本地生成一个参数化文件，比如D:\data目录下生成一个user.txt文件，JMeter参数化文件
+   和LR的区别：JMeter参数化文件中没有列名
+比如，文件内容：
+Tom
+www
+andy
+3）文件准备好后，输入参数文件路径和列号，如D:\data\user.txt和0，在"拷贝并粘贴函数字符串"栏中生成以下函数表达式：    ${__CSVRead(D:\data\user.txt, 0)}
+  说明：CSV文件列号默认为1，实际函数在取值时应该为0对应的第一列。多个参数同时取值时，如username,password，参数文件中用逗号分隔，每一个参数取参数化文件中对应的列。需要参数化的数据直接使用${__CSVRead(D:\data\user.txt, 0)} 替换即可。
+
+3、方法三：使用配置元素中的CSV Data Set Config进行参数设置
+    在线程组上点鼠标右键，选择添加->配置元件-> CSV Data Set Config，打开CSV Data Set Config设置界面，设置以下参数，如图所示：
+界面说明：
+1）Filename: 文件名，指参数化的文件目录，可以是相对路径或绝对路径。
+            比如，相对路径为D:\data\user.txt
+            如果使用相对路径（如user.txt），则需要将参数化文件放在当前测试计划所在的目录下。 
+2）File encoding: 文件编码，可以不填，默认编码方式为ANSI，如果文件使用其它编码方式保存的，就需要使用文本文件对应的编码方式，比如GBK或者UTF-8.
+3）Variable Names(comma-delimited): 参数名称，比如是username；
+        如果有多个参数，就写多个参数的名称，每个名称之间用分隔符分隔；
+        分隔符由Delimiter中定义，比如username,password
+4）Delimiter(use '\t' for tab): 参数文件中多个参数值，使用什么分隔列？
+                    \t表示用Tab制表符分隔，默认是用逗号分隔。
+5）Allow quoted data? : 是否允许引用数据，默认为False，表示在引用参数化文件中的值时，文件中是什么值，就传递什么值到参数中。
+6）Recycle on EOF? : 结束后是否循环？选择Tree或者False，默认是True.
+      CSV Data Set Config是一次读入一行数据，数据分隔后存入变量中交给一个线程，当设置的线程数超过参数化文件里的参数化数量时，可以选择数据不用后，是否从头循环重新读入数据，为True表示循环读入数据，为False则表示不循环读入数据。
+7）Stop thread on EOF: 到了参数化文件结尾处，是否停止线程，选择True或者False.
+ <1> 当Recycle on EOF选择True时，Stop thread on EOF选择True或者False没有意义。因为之前设置了结束后可以循环读入数据，所以数据是永远够用的。
+ <2> 当Recycle on EOF选择False时： 
+    a. Stop thread on EOF选择True，如果设置线程数目为10，而参数化文件中只有5行数据，那么只会请求5次；
+    b. Stop thread on EOF选择False，如果设置线程数目为10，而参数化文件里只有5行数据，那么会请求10次，但是因为第6次取不到参数化数据，所以第6次之后的请求可能会发生错误。
+
+8）Sharing mode: 共享模式，分为All threads、Current thread group、Current thread，此处和LoadRunner中参数化的迭代取值相反：
+ <1> All threads: 选择后，Test plan中所有线程共享CSV文件中的数据，所有线程安装顺序方式取CSV文件中的不同记录。测试计划中的所以线程，假如设置了10个线程，线程1取了一次值后，线程2取值时，取到的是CSV文件中的下一行，即与线程1取的不是同一行。 
+ <2> Current thread group: 选择后，Test plan中所有线程共享CSV文件中的数据，在当前线程组中，假设有线程组A、线程组B，A组内有线程A1到线程An，线程组B内有线程B1到线程Bn。取值的情况为：线程A1取第1行，线程A2取第2行，线程B1取第1行，线程B2取第2行。 -- 类似于 LR中的Sequantial
+ <3> Current thread: 选择后，每个线程各自独立的使用CSV文件中的记录。假设设置了10个线程，则线程1取第1行，线程2也取第1行。
+  注意：选择循环时，取CSV值时，也算入迭代。例如，当设置为Current thread时，线程1第1次取了第1行，第2次取的就是第2行。
+
+  以上设置完成以后，在需要进行参数化的地方，将Variable Names(comma-delimited)里设置的参数化名替换即可。例如，将之前用Badboy录制的参数jojo替换成${username}。
+
+六、JMeter检查点
+    JMeter和LoadRunner一样，都有检查点功能，区别在于JMeter的检查点是用断言实现的，JMeter中集成了BSF断言、响应断言、XML断言等，其中使用比较多的是响应断言。
+    具体步骤："添加" -> 断言 -> 响应断言，添加断言后，需要在对应的监听器添加"断言结果"，这样才能在执行后查看断言结果是否正确。
+    具体设置，如图：
+    界面说明：
+ <1> 名称：该节点的名称
+ <2> 注释：对该节点的注释
+ <3> Apply to: 默认即可  Main sample only
+   其它选项：Main sample and sub-samples、Main sample only、Sub-samples only、JMeter Variable.
+ <4> 要测试的响应字段：可以选择文本、代码，一般选择文本。
+   具它选项：响应文本、Document(text)、URL样本、响应代码、响应信息、Response Headers、Ingore Status.
+ <5> 模式匹配规则
+   1) 包括：返回结果包含指定的内容，一般断言的时候，匹配规则选择包括即可。
+   2) 匹配：返回的结果与指定的内容进行精确匹配，由于响应内容一般还包括其它信息，如HTML标签，所以很难精确匹配。
+   3) Equals: 返回结果与指定结果一致。
+   4) Substring: 返回结果是指定结果的子串。
+   5) 否：不进行匹配。
+ <6> 要测试的模式：即断言的具体内容，支持中文或者英文。可以设置多个断言内容，如果设置多个断言内容，那只有多个断言内容在返回结果值中都找到，测试结果才会通过；只要有一个失败，整个测试结果都是失败的，是一种逻辑与操作。
+  断言成功和失败的结果，如图。
+
+七、JMeter思考时间
+    LoadRunner脚本增强技术中，主要有事务点、检查点、集合点、参数化，同时可以对脚本进行运行时设置（Run-time Settings），在JMeter中也可以设置类似思考时间。
+    JMeter中的思考时间通过定时器来实现。默认情况下，JMeter线程在发送请求之间是没有间隔的。建议为线程组添加定时器，设定请求之间的间隔时间，具备两个作用：1）能够更真实模拟用户的请求规律；2）适当减少服务器的压力，以免JMeter短时间内产生大量请求，导致服务器压力过大而宕机。
+    设置定时器会让作用域内的每一个采样器都在执行前等待一段固定时间。注意，不管将定时器放在sampler之前或是之后，定时器都会在sampler之前执行，如果想在某个位置之后暂停，需要加入Test Action采样器。
+    定时器也是有作用域的，执行一个smpler之前，所有当前作用域内的定时器都会被执行，如果只希望定时器作用于其中的一个sampler，就把定时器放在该smpler下。如果测试人员为线程组添加了多个定时器，那么JMeter会将这些定时器的时长叠加起来，共同影响作用域范围内的采样器。定时器可以作为采样器或者逻辑控制器的子项，目的是指影响作用域内的采样器。
+    JMeter常见的定时器：
+    1）固定定时器：最常用。
+     例如，设置固定定时器时长为2000ms，那么在每次sampler运行之前都会固定等待2s。
+     固定定时器的延时不会计入单个smpler的响应时间，但会计入事务控制器的时间，如"java请求".
+     定时器相当于LoadRunner中的Pacing（迭代之间的时间间隔）；
+     对于"事务控制器"来说，定时器相当于LoadRunner中的Think time（步骤之间的时间间隔）
+
+    2）高斯随机定时器：定时器的延时在指定范围内的正态分布。（高斯分布）
+    3）Uniform Random Timer: 均匀随机定时器，延时在指定范围内，并且每个时间取值的概率相同。
+    4）Constant Throughput Timer: 固定吞吐量定时器，这种定时器在特定场景非常有用，可以使JMeter以指定数字的吞吐量（即指定TPS，JMeter这里要求指定每分钟的执行数，而不是每秒）执行。吞吐量计算的范围可以指定为当前线程、当前线程组、所以线程组，并且计算吞吐量的依据可以是最近一次线程的执行时间。
+    5）Synchronizing Timer: 同步定时器即JMeter的集合点，与LoadRunner的集合点基本相当，可以使线程等待，当达到指定的线程数后，再一起执行，可以模拟同时的并发。
+
+八、JMeter集合点
+    LoadRunner中设置集合点的目的是让多个Vuser等待到达同一点，同时触发一个事务，以达到模拟真实环境下多用户同时操作，是实现瞬时较大压力的一种性能测试。
+    JMeter中使用Synchronizing Timer实现集合点的功能，模拟多用户并发测试，即让多个线程在同一时刻并发请求。
+    将测试元件的Synchronizing Timer添加到请求之前或者某个Sampler的子节点，右击左侧窗格的"测试计划"，在弹出菜单中-> 添加 -> 定时器 -> Synchronizing Timer。如图所示：
+    Synchronizing Timer 界面说明：
+  1）名称：该节点的名称
+  2）注释：该节点的注释
+  3）Number of Simulated users to Group by: 
+    集合点够N个用户才开始执行并发，在使用中发现最后一批线程数不够集合点数目时，JMeter会停止不动，
+  如果碰到这种情况，就只能杀掉JMeter进程重新执行测试。
+
+九、运行结果分析
+    JMeter的运行结果都需要添加监听器，常用的监听器包括聚合报告、图形结果、监视器结果、Aggregate Graph。在运行性能场景的时候，尽量不要同时开启多个监视器，因为监听器会消耗系统资源，更多的监听器也会导致测试结果的失真，所以在运行性能测试场景的时候，尽量选择一个合适的监听器。
+1、聚合报告
+JMeter聚合报告界面：
+聚合报告元素分析：
+1）Label: 请求的名称。比如，左侧的请求名称有..., ... 聚合报告中也显示这2个名称。
+2）Samples:本次测试一共运行了多少个请求。例如，图中有__个请求，迭代__次，一共运行__次。
+3）Average: 测试结果的平均响应时间，单位为ms。
+4）Median: 测试结果中的中间值，即50%服务器响应时间低于该值，50%的响应时间高于该值。
+5）90% Line: 测试结果中90%用户的响应时间不超过该值。
+6）Min: 测试结果中的最小响应时间。
+7）Max: 测试结果中的最大响应时间。
+8）Error%: 本次测试错误率，性能测试的前提是保证业务的正确性，如果错误率过高，那么性能结果一般是不能接受的。业内一般要求是99.99%，不是绝对的，仅供参考。
+9）Throughput: 吞吐量。
+10）KB/Sec: 每秒从服务器端接收到的数据量。
+    单击Configure后会弹出监听器的公共属性，可以对报告保存的结果信息进行修改，建议保存为CSV格式，这样比较节约系统资源。
+    Aggregate Graph的结果与聚合报告基本相同，多了一个Graph页，可以以图形化的方式将请求的评价响应时间展示出来。  (Aggregate 合计、聚合的)
+
+2、图形结果
+JMeter的图形结果界面：
+说明：
+<1> 样本数目：从服务器返回请求结果的总数。
+<2> 最新样本：最近一次请求的响应时间。
+<3> 吞吐量：服务器每分钟处理的请求数。
+<4> 平均：总运行时间除以发送到服务器的请求数得到的响应时间。
+<5> 中值：运行时间范围内所有响应时间的中间值，代表一半请求的响应时间会高于这个值，一半请求的响应时间低于这个值。
+<6> 偏离：服务器响应时间变化、离散程度测量值的大小。类似于LoadRunner中的标准方差。
+
+3、用表格查看结果树
+  JMeter可用表格查看结果树，界面：
+说明：
+<1> Sample: 每个请求的序号。
+<2> Start Time: 每个请求运行开始时间。
+<3> Thread Name: 每个线程的名称。
+<4> Label: 请求名称。
+<5> Sample Time(ms): 每个请求所花的实际，单位ms.
+<6> Status: 请求状态，如果为勾，则表示成功；如果为叉，则表示失败；
+             但如果是勾，也不能认为请求就一定完全成功了，还需要看Bytes的字节数是否是所请求网页的正常大小值，如果不是则说明发生了丢包现象，所以Status不能表示一定成功。
+<7> Bytes: 请求的字节数。
+<8> 样本数目：就是执行了多少次请求。
+<9> 最新样本：表示服务器响应最后一个请求的响应时间。
+<10> 平均：表示平均响应时间。
+  
+十、JMeter联机测试 （分布式测试）
+    作为一个纯Java的GUI应用，JMeter对于CPU和内存的消耗非常大，当需要模拟数以千计的并发用户时，
+使用单台机器模拟所以并发用户就显得力不从心，甚至会引起Java内存泄露的错误。类似于LoadRunner，
+JMeter可以使用多台机器联合起来，运行代理程序来分担负载生成器自身的压力，从而获得更大的并发用户
+数，需要进行一些配置：
+    Windows下的JMeter联机测试配置：
+1）在所有负载机安装JMeter，并指定其中一台机器作为控制器，剩余机器作为代理。之后运行所有代理机器上的jmeter-server.bat文件，比如使用两台机器作为代理服务器：172.166.100.101和172.166.100.102。
+2）在Controller机器的JMeter安装目录的bin目录中，找到jmeter.properties配置文件，使用文本编辑器打开。
+3）查找到"remote_hosts="字符串，找到"remote_hosts=127.0.0.1"。其中的127.0.0.1表示本机运行JMeter代理的机器，需要修改为：
+"remote_hosts=127.0.0.1,172.166.100.101:1099,172.166.100.102:1099"
+   其中端口号1099不要改动，这是默认的JMeter控制器与代理直接通信的RMI端口号（Remote Method Invocation 远程方法调用），如果需要更换端口号，则根据运行环境设置，172.166.100.101和172.166.100.102为远程负载机的IP地址。
+ <1> 在Windows中运行如下命令：
+     SET SERVER_PORT=1099
+     JMeter-SERVER
+ <2> 在Linux中运行如下命令：
+     SERVER_PORT=1099 JMETER-server;
+
+4）配置JMeter的环境变量，如果不配置环境变量，分布式就启动不成功。Windows下的JMeter环境变量的配置如下：
+JMeter_HOME=D:\JMeter\apache-jmeter-2.12
+CLASSPATH=;%JMeter_HOME%\lib\ext\ApacheJMeter_core.jar;%JMeter_HOME%\lib\jorphan.jar;
+               %JMeter_HOME%\lib\logkit-2.0.jar
+PATH=...;%JMeter_HOME%\bin;
+
+5）保存文件，重启控制器上的JMeter，进入"启动"-> "远程启动" 菜单，看到刚添加的两个代理的地址，选中即可运行。如果想同时启动所有代理，选择远程全部启动即可。
+
+6）Linux下的JMeter联机配置。JMeter的联机测试可以与LoadRunner一样，将Agent代理装在Linux下，Linux系统中JMeter联机配置和Windows系统中基本相同，唯一不同在于Linux下环境变量的配置：
+export JMeter_HOME=/usr/local/apache-jmeter-2.12
+export PATH=$JMeter_HOME/lib/ext/ApacheJMeter_core.jar:$JMeter_HOME/lib/jorphan.jar:$JMeter_HOME/lib/logkit-2.0.jar:$JMeter_HOME/bin:$PATH
+
+   在JMeter联机控制过程中，各个Agent启动的线程数等于线程组中的配置，不是均分线程组中的配置。
+
+十一、JMeter JDBC脚本实战
+    JMeter进行JDBC脚本开发特别方便，不像LoadRunner那样录制SqlPlus操作形成Oracle脚本或者自己写JDBC请求来形成脚本。目前以MySQL数据库为例，其它数据库可作为参考。
+1、创建JDBC连接
+    在测试计划下添加线程组，在线程组下"配置元件"中添加一个JDBC Connection Configuration，如图所示:
+各参数属性说明：
+<1> Variable Name: JDBC创建的连接池的名称，由于测试MySQL数据库，所以设置为MySQL，注意要与JDBC Request中的Variable Name保持一致。
+<2> Max Number Connection: JDBC连接池的最大连接数，如果改值设置为0，则表示线程之间独立不使用共享线程池，如果使用共享线程池，则确保改值大于等于最大线程数。
+<3> Pool Timeout: 创建连接池时的超时时间，如果超过这个时间，则系统会抛出错误信息。
+<4> Idle Cleanup Interval(ms): 连接池的空闲时间，默认是1分钟。
+<5> Auto Commit: 是否自动提交，默认选择True。
+<6> Transaction Isolation: 数据库事务隔离级别，默认为default。
+   MySQL数据库事务隔离级别有4种：
+    a. Read Uncommitted  读取未提交内容    可能出现（脏读、不可重复读、幻读）
+    b. Read Committed   读取提交内容        可能出现（不可重复读、幻读）
+    c. Repeatable Read   可重复读            可能出现（幻读）
+    d. Serializable        可串行化
+   级别越低，支持的并发一般会更大，并且系统开销会越小。
+<7> Keep-Alive: 是否开启长连接机制，如果开启keep-alive，则需要设定keep-alive的超时时间。
+<8> Max Connection Age(ms): keep-alive的超时时间，在连接超时之前，新的请求会重用之前建立的连接，而不会重新创建新的连接，如果超过这个超时时间，则会断开原有连接，新的请求会重新创建新的连接。
+<9> Validation Query: 测试JDBC连接是否畅通，默认是select 1 from default
+<10> Database URL: JDBC连接字符串
+  对于MySQL: jdbc:mysql://主机名:端口号/数据库名    驱动类名：com.mysql.jdbc.Driver
+  对于Oracle:  jdbc:oracle:thin@主机名...              驱动类名：oracle.jdbc.OracleDriver
+  对于SqlServer: jdbc:sqlserver://主机名:端口号;DatabaseName=数据库名
+<11> JDBC Driver class: JDBC驱动的类名，MySQL设置为：com.mysql.jdbc.Driver
+  注意：进行JDBC测试需要依赖相应的jar包，比如Mysqlxxx.jar、ojdbc14.jar等
+<12> Username: 数据库用户名
+<13> Password: 数据库密码
+
+2、创建JDBC测试用例
+    鼠标右击线程组，选择添加 -> Sampler -> JDBC Request，创建一个新的JDBC测试用例，并设置以下属性：
+1）Variable Name: 使用的JDBC连接池名称。
+    注意：需要和JDBC Connection Configuration中的Variable Name保持一致，否则会报错。
+2）Query Type: SQL查询的类型，包括Select、Update、Callable Statement、Commit、Rollback等。
+ <1> 当不使用参数的情况时，多个查询语句可以放在一起顺序执行，需要设置Query Type为Callable Statement，然后顺序输入select语句，不用加go或者分号。
+     如果Query Type设置为Select Statement，则只执行第一个SQL语句。
+ <2> 如果SQL语句中使用参数变量，那么Query Type需要设置为Select Statement，只执行第一条SQL语句。变量可以直接在JDBC Request下方的Parameter Values中输入${变量名称},${变量名称}。也可以使用本地文件，或者通过CSV Data Set Config进行参数化。
+ <3> 对于Insert、Update、Delete语句，需要设置Query为Update Statement。在数据修改语句中可以使用参数，而且可以顺序执行多条修改语句。 
+3）Query: SQL查询语句，在这里输入需要执行的SQL语句：
+ insert into t_user(username, password, salary, email) 
+ valeus('${username}', '${password}', 6000.0, '${username}@ibm.com');
+
+ update t_user set password='123' where username='${username}';
+
+ delete from t_user where username='${username}';
+
+4）Parameter values: SQL查询的参数，以CSV文件中读取参数为例：
+ ${__CSVRead(D:\data\user.csv, 0)}
+ 其中0表示csv文件的第0列。如果SQL查询语句有多个参数，可以在Parameter values中用逗号分隔：
+ ${__CSVRead(D:\data\user.csv, 0)}, ${__CSVRead(D:\data\user.csv, 1)}
+
+5）Parameter types: SQL查询参数的类型。比如设置为VARCHAR，多个参数，使用逗号分隔。
+
+3、添加监听器
+    创建好测试用例后，可以创建监听器查看结果数据：
+    右击"测试计划" -> 添加 -> 监听器 -> 查看结果树。
+    查看结果树，可以看到每一次请求的详细信息，包括SQL语句、参数的内容、响应的内容、响应的时间等。建议在调试脚本时，首先添加"查看结果树"，以查看脚本发送的请求是否成功，如果不成功，则可以通过该监听器查看返回的内容，从而查找错误原因。
+    当添加"查看结果树"监听器调试无误后，可添加"Aggregate Graph"进行场景的运行。具体步骤：
+    右击"测试计划" -> 添加 -> 监听器 -> Aggregate Graph
+    当场景运行一段时间后，就可在Aggregate Graph监听器中查看总体的运行情况，包括平均响应时间、吞吐量、错误率等。
+
+十二、JMeter注意事项
+1、JMeter 2.12支持JDK1.6及以上版本，如果无法打开JMeter，先检查JDK版本。
+2、尽量少使用监听器，过多的监听器会消耗系统资源。
+3、为了保证测试数据尽可能准确，尽量使用非GUI进行测试，如使用JMeter -n -t test.jmx -l test.jtl
+   非GUI模式下运行Jmeter
+   具体方法是：先在GUI模式下创建TestPlan，保存为jmx文件。
+   命令行启动jmeter：./ApacheJMeter -n -t testplan.jmx (选项-n表示non-GUI，-t指定TestPlan文件)。
+   运行结束后Aggregate Report和PerfMon Metrics Collector就会保存在指定的位置。
+   把保存PerfMon Metrics Collector的文件拖到Jmerter GUI中就可以看到性能状况拆线图了。
+
+4、尽量把相似的取样器放在循环内，使用变量（CSV Data Set Config）修改这些Sampler，而不是重复添加Sampler。或者可能会用到Access Log Sampler --- 这里不能使用Include Controller，因为它会将制定文件中的所有测试元件直接添加到测试计划中。
+5、不要使用函数测试模式（Functional Mode）。
+6、以CSV格式输出测试结果，尽量不要使用XML格式，因为CSV更省系统资源。
+7、如果需要保持测试数据结果，则仅保存需要的数据，这样比较节省系统资源。
+8、断言最后在调试脚本时使用，在运行测试场景是应该禁用断言，这样测试结果更准确。
+9、负载测试期间不要使用"查看结果树"和"用表格查看结果"监听器，这两个监听器最好只在调试脚本时使用。
+10、如果测试需要大量数据（特别是随机产生的数据），则可以提前准备好测试数据放到数据文件中，以CSV Data Set Config方式读取，这样能避免在测试运行阶段创建这些数据，以免浪费资源。
+11、大并发量的负载测试，尽量在多台机器上运行多个非GUI JMeter实例，进行联机测试。
+12、如果测试过程中报内存不足，则再JMeter的bin目录下找到JMeter的启动文件JMeter.bat（Linux系统为JMeter.sh），打开该文件并修改该文件中的JVM内存设置。例如，JVM内存修改为：HEAP="-Xms512m -Xmx512m"，最大堆内存与最小堆内存保持一致，这样可以减少频繁申请创建、销毁内存引起的性能损耗开销。
+
+
+
+
+
+

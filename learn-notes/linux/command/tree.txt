@@ -1,0 +1,94 @@
+usage: tree [-acdfghilnpqrstuvxACDFJQNSUX] [-H baseHREF] [-T title ]
+	[-L level [-R]] [-P pattern] [-I pattern] [-o filename] [--version]
+	[--help] [--inodes] [--device] [--noreport] [--nolinks] [--dirsfirst]
+	[--charset charset] [--filelimit[=]#] [--si] [--timefmt[=]<f>]
+	[--sort[=]<name>] [--matchdirs] [--ignore-case] [--] [<directory list>]
+	
+  ------- Listing options -------
+  $. 列表选项
+  
+  -a            All files are listed.
+                显示所有文件和目录；
+  -d            List directories only.
+                先是目录名称而非内容；
+  -l            Follow symbolic links like directories.
+                按照目录之类的符号链接。
+  -f            Print the full path prefix for each file.
+                为每个文件打印完整路径前缀。
+  -x            Stay on current filesystem only.
+                只停留在当前文件系统上。
+  -L level      Descend only level directories deep.
+                查看目录深度
+  -R            Rerun tree when max dir level reached.
+  -P pattern    List only those files that match the pattern given.
+  -I pattern    Do not list files that match the given pattern.
+  --ignore-case Ignore case when pattern matching.
+  --matchdirs   Include directory names in -P pattern matching.
+  --noreport    Turn off file/directory count at end of tree listing.
+  --charset X   Use charset X for terminal/HTML and indentation line output.
+  --filelimit # Do not descend dirs with more than # files in them.
+  --timefmt <f> Print and format time according to the format <f>.
+  -o filename   Output to file instead of stdout.
+  
+  -------- File options ---------
+  $. 文件夹选项
+  
+  -q            Print non-printable characters as '?'.
+  -N            Print non-printable characters as is.
+  -Q            Quote filenames with double quotes.
+  -p            Print the protections for each file.
+                列出权限标示；
+  -u            Displays file owner or UID number.
+                显示文件的所有者或UID号码。
+  -g            Displays file group owner or GID number.
+                显示文件组的所有者或GID号。
+  -s            Print the size in bytes of each file.
+                将每个文件的大小打印为字节。  
+  -h            Print the size in a more human readable way.
+                以更易读的方式打印尺寸。
+  --si          Like -h, but use in SI units (powers of 1000).
+  -D            Print the date of last modification or (-c) status change.
+  -F            Appends '/', '=', '*', '@', '|' or '>' as per ls -F.
+  --inodes      Print inode number of each file.
+  --device      Print device ID number to which each file belongs.
+  
+  ------- Sorting options -------
+  $. 排序选项
+  
+  -v            Sort files alphanumerically by version.
+                字母顺序排序文件的版本。
+  -t            Sort files by last modification time.
+                按上次修改时间排序文件。
+  -c            Sort files by last status change time.
+                按最后状态更改时间排序文件。
+  -U            Leave files unsorted.
+                把文件排序。
+  -r            Reverse the order of the sort.
+                颠倒排序顺序。
+  --dirsfirst   List directories before files (-U disables).
+                列出文件之前的目录（u禁用）。
+  --sort X      Select sort: name,version,size,mtime,ctime.
+                选择排序：名称、版本、大小、时间、'ctime'。
+  
+  ------- Graphics options ------
+  $. 图形选项
+  
+  -i            Don't print indentation lines.
+  -A            Print ANSI lines graphic indentation lines.
+                使用ASNI绘图字符显示树状图而非以ASCII字符组合；
+  -S            Print with CP437 (console) graphics indentation lines.
+  -n            Turn colorization off always (-C overrides).
+  -C            Turn colorization on always.
+                在文件和目录清单加上色彩，便于区分各种类型；
+		
+  ------- XML/HTML/JSON options -------
+  
+  -X            Prints out an XML representation of the tree.
+  -J            Prints out an JSON representation of the tree.
+  -H baseHREF   Prints out HTML format with baseHREF as top directory.
+  -T string     Replace the default HTML title and H1 header with string.
+  --nolinks     Turn off hyperlinks in HTML output.
+  ---- Miscellaneous options ----
+  --version     Print version and exit.
+  --help        Print usage and this help message and exit.
+  --            Options processing terminator.
