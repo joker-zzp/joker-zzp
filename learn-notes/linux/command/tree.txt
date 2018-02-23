@@ -20,22 +20,35 @@ usage: tree [-acdfghilnpqrstuvxACDFJQNSUX] [-H baseHREF] [-T title ]
   -L level      Descend only level directories deep.
                 查看目录深度
   -R            Rerun tree when max dir level reached.
+                当MAX目录级别达到时重新运行树
   -P pattern    List only those files that match the pattern given.
+                只列出与给定模式匹配的文件
   -I pattern    Do not list files that match the given pattern.
+                不要列出与给定模式匹配的文件
   --ignore-case Ignore case when pattern matching.
+                模式匹配时忽略用例
   --matchdirs   Include directory names in -P pattern matching.
+                将目录名包含在p模式匹配中
   --noreport    Turn off file/directory count at end of tree listing.
+                关闭树结束列表中的文件/目录计数
   --charset X   Use charset X for terminal/HTML and indentation line output.
+                使用字符集X终端/ HTML和压痕线输出
   --filelimit # Do not descend dirs with more than # files in them.
+                不下降超过#文件目录中
   --timefmt <f> Print and format time according to the format <f>.
+                按照格式>打印和格式化时间>
   -o filename   Output to file instead of stdout.
+                输出到文件，而不是标准输出
   
   -------- File options ---------
   $. 文件夹选项
   
   -q            Print non-printable characters as '?'.
+                打印非打印字符“？”。  
   -N            Print non-printable characters as is.
+                打印不可打印字符
   -Q            Quote filenames with double quotes.
+                用双引号引用的文件名
   -p            Print the protections for each file.
                 列出权限标示；
   -u            Displays file owner or UID number.
@@ -47,10 +60,14 @@ usage: tree [-acdfghilnpqrstuvxACDFJQNSUX] [-H baseHREF] [-T title ]
   -h            Print the size in a more human readable way.
                 以更易读的方式打印尺寸。
   --si          Like -h, but use in SI units (powers of 1000).
+                像h，但在SI单位中使用（1000的幂）
   -D            Print the date of last modification or (-c) status change.
+                打印上次修改或（- C）状态更改的日期
   -F            Appends '/', '=', '*', '@', '|' or '>' as per ls -F.
   --inodes      Print inode number of each file.
+                打印每个文件的inode号
   --device      Print device ID number to which each file belongs.
+                打印每个文件所属的设备ID号
   
   ------- Sorting options -------
   $. 排序选项
