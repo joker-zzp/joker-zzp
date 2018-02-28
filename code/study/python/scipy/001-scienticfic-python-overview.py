@@ -39,3 +39,24 @@ weave	     C/C++ 积分
 ────────────────────────────────
 
 '''
+import numpy as np
+import scipy as sp
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from scipy import linalg, optimize
+
+
+# 可以使用 numpy 中的 info 函数来查看函数的文档
+print("可以使用 numpy 中的 info 函数来查看函数的文档:")
+np.info(optimize.fmin)
+
+print()
+# 可以用 lookfor 来查询特定关键词相关的函数
+print("可以用 lookfor 来查询特定关键词相关的函数:")
+np.lookfor("resize array")
+
+# 还可以指定查找的模块
+print()
+print("还可以指定查找的模块")
+
+np.lookfor('remove path', module="os")
