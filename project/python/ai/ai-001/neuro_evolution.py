@@ -7,7 +7,7 @@ network = [4, [16], 1]
 
 population = 50        # 人口
 elitism = 0.2          # 精英主义
-random_behaviour = 0.1 # 随机行为
+random_behaviour = 0.1  # 随机行为
 mutation_rate = 0.5    # 突变率
 mutation_range = 2     # 变异范围
 historic = 0           # 有历史意义的
@@ -16,16 +16,22 @@ score_sort = -1        # 成绩排序
 n_child = 1            # n个孩子
 
 # 激活函数
+
+
 def sigmoid(z):
     # 传入的z值越大返回值越接近于1
     return 1.0/(1.0+math.exp(-z))
 
 # random number
+
+
 def random_clamped():
     # 随机范围-1 ~ 1
     return random.random()*2-1
 
 # "神经元"
+
+
 class Neuron():
     def __init__(self):
         self.biase = 0     # 偏差
@@ -35,18 +41,22 @@ class Neuron():
         self.weights = []
         for i in range(n):
             self.weights.append(random_clamped())
+
     def __repr__(self):
         # 神经元的权值大小 偏差值
         return 'Neuron weight size:{}  biase value:{}'.format(len(self.weights), self.biase)
 
-# 层 
+# 层
+
+
 class Layer():
     def __init__(self, index):
         # index 指数
         self.index = index
         # 神经元
         self.neurons = []
-    # n个神经元 
+    # n个神经元
+
     def init_neurons(self, n_neuron, n_input):
         self.neurons = []
         for i in range(n_neuron):
@@ -58,12 +68,14 @@ class Layer():
         return 'Layer ID:{}  Layer neuron size:{}'.format(self.index, len(self.neurons))
 
 # 神经网络
+
+
 class NeuroNetwork():
     def __init__(self):
         self.layers = []
 
     # input:输入层神经元数 hiddens:隐藏层 output:输出层神经元数
-    def init_neuro_network(self, input, hiddens , output):
+    def init_neuro_network(self, input, hiddens, output):
         index = 0
         previous_neurons = 0
         # input
@@ -85,7 +97,7 @@ class NeuroNetwork():
         self.layers.append(layer)
 
     def get_weights(self):
-        data = { 'network':[], 'weights':[] }
+        data = {'network': [], 'weights': []}
         for layer in self.layers:
             data['network'].append(len(layer.neurons))
             for neuron in layer.neurons:
@@ -123,7 +135,8 @@ class NeuroNetwork():
             for j in range(len(self.layers[i].neurons)):
                 sum = 0
                 for k in range(len(prev_layer.neurons)):
-                    sum += prev_layer.neurons[k].biase * self.layers[i].neurons[j].weights[k]
+                    sum += prev_layer.neurons[k].biase * \
+                        self.layers[i].neurons[j].weights[k]
                 self.layers[i].neurons[j].biase = sigmoid(sum)
             prev_layer = self.layers[i]
 
@@ -138,10 +151,13 @@ class NeuroNetwork():
             print(layer)
 
 # "基因组"
+
+
 class Genome():
     def __init__(self, score, network_weights):
         self.score = score
         self.network_weights = network_weights
+
 
 class Generation():
     def __init__(self):
@@ -169,7 +185,8 @@ class Generation():
 
             for i in range(len(data.network_weights['weights'])):
                 if random.random() <= mutation_rate:
-                    data.network_weights['weights'][i] += random.random() * mutation_range * 2 - mutation_range
+                    data.network_weights['weights'][i] += random.random() * \
+                        mutation_range * 2 - mutation_range
             datas.append(data)
         return datas
 
@@ -190,7 +207,8 @@ class Generation():
         max_n = 0
         while True:
             for i in range(max_n):
-                childs = self.breed(self.genomes[i], self.genomes[max_n], n_child if n_child > 0 else 1)
+                childs = self.breed(
+                    self.genomes[i], self.genomes[max_n], n_child if n_child > 0 else 1)
                 for c in range(len(childs)):
                     nexts.append(childs[c].network_weights)
                     if len(nexts) >= population:
@@ -200,6 +218,8 @@ class Generation():
                 max_n = 0
 
 # 神经进化
+
+
 class Generations():
     def __init__(self):
         self.generations = []
@@ -227,6 +247,7 @@ class Generations():
 
         return self.generations[-1].add_genome(genome)
 
+
 class NeuroEvolution():
     def __init__(self):
         self.generations = Generations()
@@ -249,13 +270,15 @@ class NeuroEvolution():
 
         if low_historic:
             if len(self.generations.generations) >= 2:
-                genomes = self.generations.generations[len(self.generations.generations) - 2].genomes
+                genomes = self.generations.generations[len(
+                    self.generations.generations) - 2].genomes
                 for i in range(genomes):
                     genomes[i].network = None
 
         if historic != -1:
             if len(self.generations.generations) > historic+1:
-                del self.generations.generations[0:len(self.generations.generations)-(historic+1)]
+                del self.generations.generations[0:len(
+                    self.generations.generations)-(historic+1)]
 
         return nn
 
