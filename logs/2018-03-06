@@ -1,0 +1,7 @@
+- name: zhangzhp -
+- date：2018-03-06 16:41:55 -
+- from: zhangzhp-PC -
+重命名/etc/centosLinux 文件夹
+更新学习笔记./learn-notes/linux/command/ 命令帮助文档
+更新一个shell文件 code/command/linux/shell/check_command.sh 检查一个命令是否存在
+

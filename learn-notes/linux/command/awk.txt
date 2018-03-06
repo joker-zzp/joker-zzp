@@ -1,0 +1,41 @@
+用法：awk [POSIX 或 GNU 风格选项] -f 脚本文件 [--] 文件 ...
+用法：awk [POSIX 或 GNU 风格选项] [--] '程序' 文件 ...
+POSIX 选项：		GNU 长选项：(标准)
+	-f 脚本文件		--file=脚本文件
+	-F fs			--field-separator=fs
+	-v var=val		--assign=var=val
+短选项：		GNU 长选项：(扩展)
+	-b			--characters-as-bytes
+	-c			--traditional
+	-C			--copyright
+	-d[文件]		--dump-variables[=文件]
+	-D[文件]		--debug[=文件]
+	-e '程序文本'	--source='程序文本'
+	-E 文件			--exec=文件
+	-g			--gen-pot
+	-h			--help
+	-i 包含文件		--include=包含文件
+	-l 库		--load=库
+	-L[fatal|invalid]	--lint[=fatal|invalid]
+	-M			--bignum
+	-N			--use-lc-numeric
+	-n			--non-decimal-data
+	-o[文件]		--pretty-print[=文件]
+	-O			--optimize
+	-p[文件]		--profile[=文件]
+	-P			--posix
+	-r			--re-interval
+	-S			--sandbox
+	-t			--lint-old
+	-V			--version
+
+提交错误报告请参考“gawk.info”中的“Bugs”页，它位于打印版本中的“Reporting
+Problems and Bugs”一节
+
+翻译错误请发信至 translation-team-zh-cn@lists.sourceforge.net
+
+gawk 是一个模式扫描及处理语言。缺省情况下它从标准输入读入并写至标准输出。
+
+范例:
+	gawk '{ sum += $1 }; END { print sum }' file
+	gawk -F: '{ print $1 }' /etc/passwd
