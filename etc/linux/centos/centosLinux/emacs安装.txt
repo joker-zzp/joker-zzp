@@ -1,0 +1,23 @@
+# emacs 安装步骤
+
+# 下载emacs25.1
+wget http://mirrors.ustc.edu.cn/gnu/emacs/emacs-25.1.tar.gz
+
+# 对其进行解压
+tar -xvf emacs-25.1.tar.gz -C /tmp/
+
+# 安装相关依赖
+sudo yum install gcc* glib* gtk* ncurses* libXpm* giflib* libjpeg* libtiff* libpng* -y
+
+# 为了防止emacs原有文件被破坏安装到新的一个emacs文件夹中
+mkdir ~/emacs_build
+
+# 进入/tmp/文件夹
+cd ~/emacs_build/
+
+
+sudo /tmp/emacs-25.1/configure
+sudo make && make install
+
+# 安装完成
+# 可以进行配置emacs的init.el文件

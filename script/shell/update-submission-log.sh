@@ -5,42 +5,56 @@ echo "hello !"
 logs_name="$(date '+%Y-%m-%d')"
 
 # 输出创建的文件名称
-echo " file name：${logs_name}"
+echo "  file name：${logs_name}"
 
 # 仓库路径
 git_path=$(find ~/ -type d -name 'joker-zzp')
-if [ ! -d "${path}"];then
-    echo "找不到路径"
+if [ -d "${git_path}" ];
+then
+    echo "  git 仓库路径:"${git_path}
+else
+    echo -e "  No \"joker-zzp\" path can be found "
     exit 1
 fi
 
 # 输出创建的路径
-logs_path="${git_path}/logs/${logs_name}"
-echo " file path: ${logs_path}"
+logs_path="${git_path}/var/logs/"
+
+# 判断日志路径是否存在正确 
+if [ -d ${logs_path} ];
+then
+    echo "  logs path: ${logs_path}"
+    logs_path=${logs_path}${logs_name}
+else
+    echo -e "  No \"logs\" path can be found"
+    exit 1
+fi
 
 # 创建写日记人
 if [ -n $(whoami) ];then username=$(whoami); else username="zzp"; fi
-echo "user name: ${username}"
+echo -e "\n  - name: ${username} -"
+
+# 写入的时间
+write_file_time=$(date '+%Y-%m-%d %T')
+echo -e "  - date: "${write_file_time}" -"
 
 # 在什么地方提交的
 from="$(hostname)"
+echo -e "  - from: ${from} -"
 
-# 判断文件是否存在 存在时向后插入文件头 不存在时创建文件并输入文件头
-if ! test -f $logs_path
+# 写入日志头
+if [ -f ${logs_path} ];
 then
+    # 文件以存在,写入文件
+    echo "write file "${logs_path}"..."
+    echo -e "-- name: "${username}" --\n-- time: "${write_file_time}" --\n-- from: "${from}" --\n" >> ${logs_path}
+else
+    # 文件不存在,添加文件
     echo "create a file: ${logs_name}"
+    echo "The create file path is "${logs_path}
     touch ${logs_path}
     chmod 644 ${logs_path}
-    echo "- name: ${username} -
-- date：${logs_name} $(date '+%T') -
-- from: ${from} -" > ${logs_path}
-    echo "" >> ${logs_path}
-else
-    echo "write file ${logs_name}..."
-    echo "" >> ${logs_path}
-    echo "- name: ${username} -" >> ${logs_path}
-    echo "- date：${logs_name} $(date '+%T') -" >> ${logs_path}
-    echo "- from: ${from} -" >> ${logs_path}
+    echo -e "-- name: "${username}" --\n-- data: "${write_file_time}" --\n-- from: "${from}" --\n" > ${logs_path}
 fi
 
 # 编辑日志

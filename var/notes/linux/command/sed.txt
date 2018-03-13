@@ -1,0 +1,41 @@
+用法: sed [选项]... {脚本(如果没有其他脚本)} [输入文件]...
+
+  -n, --quiet, --silent
+                 取消自动打印模式空间
+  -e 脚本, --expression=脚本
+                 添加“脚本”到程序的运行列表
+  -f 脚本文件, --file=脚本文件
+                 添加“脚本文件”到程序的运行列表
+  --follow-symlinks
+                 直接修改文件时跟随软链接
+  -i[SUFFIX], --in-place[=SUFFIX]
+                 edit files in place (makes backup if SUFFIX supplied)
+  -c, --copy
+                 use copy instead of rename when shuffling files in -i mode
+  -b, --binary
+                 does nothing; for compatibility with WIN32/CYGWIN/MSDOS/EMX (
+                 open files in binary mode (CR+LFs are not treated specially))
+  -l N, --line-length=N
+                 指定“l”命令的换行期望长度
+  --posix
+                 关闭所有 GNU 扩展
+  -r, --regexp-extended
+                 在脚本中使用扩展正则表达式
+  -s, --separate
+                 将输入文件视为各个独立的文件而不是一个长的连续输入
+  -u, --unbuffered
+                 从输入文件读取最少的数据，更频繁的刷新输出
+  -z, --null-data
+                 separate lines by NUL characters
+  --help
+                 display this help and exit
+  --version
+                 output version information and exit
+
+如果没有 -e, --expression, -f 或 --file 选项，那么第一个非选项参数被视为
+sed脚本。其他非选项参数被视为输入文件，如果没有输入文件，那么程序将从标准
+输入读取数据。
+GNU sed home page: <http://www.gnu.org/software/sed/>.
+General help using GNU software: <http://www.gnu.org/gethelp/>.
+E-mail bug reports to: <bug-sed@gnu.org>.
+Be sure to include the word ``sed'' somewhere in the ``Subject:'' field.
