@@ -52,6 +52,9 @@
 ;; No backup files are produced when saved
 (setq make-backup-files nil)
 
+;; Tab change space
+(setq-default indent-tabs-mode nil)
+
 ;; when asking yes or no, answer with y-n
 (fset 'yes-or-no-p 'y-or-n-p)
 
