@@ -25,20 +25,44 @@ driver.capabilities['version']
 
 
 2.简单对象的定位
+
 # 根据id定位
 dirver.find_element_by_id()
+# <a id="aaa">
+dirver.find_element_by_id("aaa")
+
 # 根据name定位
 dirver.find_element_by_name()
-# 根据样式名称定位
-dirver.find_element_by_class_name()
+# <a name="aaa">
+dirver.find_element_by_name("aaa")
 
+# 根据样式名称定位/标签名称定位
+dirver.find_element_by_class_name()
+dirver.find_element_by_tag_name()
 #<div id="searchform" class="jhp_big" style="margin-top:-2px">
 #<form id="tsf" onsubmit="return name="f" method="GET" action="/search">
-find_element_by_class_name("jhp_big")
-find_element_by_tag_name("div")
+dirver.find_element_by_class_name("jhp_big")
+dirver.find_element_by_tag_name("div")
 
-dirver.find_element_by_tag_name()
+# 有时候需要操作的元素是一个文字链接，
+#那么我们可以通过link text 或partial link text 进行元素定位
+dirver.find_element_by_link_text()
 dirver.find_element_by_partial_link_text()
+
+#<a href="http://news.baidu.com" name="tj_news">新闻</a>
+#<a href="http://tieba.baidu.com" name="tj_tieba">贴吧</a>
+#<a href="http://zhidao.baidu.com" name="tj_zhidao">一个很长的文字连接</a>
+
+#通过link text 定位元素：
+find_element_by_link_text("新闻")
+find_element_by_link_text("贴吧")
+find_element_by_link_text("一个很长的文字连接")
+
+#通partial link text 也可以定位到上面几个元素：
+find_element_by_partial_link_text("新")
+find_element_by_partial_link_text("吧")
+find_element_by_partial_link_text("一个很长的")
+
 dirver.find_element_by_xpath()
 dirver.find_element_by_css_selector()
 
