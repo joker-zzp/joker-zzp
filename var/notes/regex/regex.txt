@@ -1,0 +1,50 @@
+# 正则表达式 #
+
+# 完全匹配字符
+{
+  # asdtestcdtest
+  (test)
+  matching 2: test
+}
+
+# 开头完全匹配
+{
+  # test
+  ^(te)
+  matching 1: te
+}
+
+# 结尾完全匹配
+{
+  # test.ccs
+  (\.ccs)$
+  matching 1: \.ccs
+}
+
+# 匹配中文字符
+{
+  # 阿萨德asd啊
+  [\u4e00-\u9fa5]
+  matching 4:阿萨德啊
+}
+
+# 匹配双字节字符(包括汉字在内)
+{
+  # asd阿萨德丶の
+  [^\x00-\xff]
+  matching 5: 阿萨德丶の
+}
+
+# 匹配Email地址
+{
+  # asd@aaa.aa
+  [\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?
+  matching 1: asd@aaa.aa
+}
+
+# 匹配正整数
+{
+  # 123
+  ^[0-9]\d*$
+  matching 1: 123
+}
