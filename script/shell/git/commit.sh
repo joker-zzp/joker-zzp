@@ -61,7 +61,7 @@ function reset_check(){
     then
         echo "有缓存可以提交"
         date_time=$(date +%Y-%m-%d)
-        `git commit -m ${date_time}`
+        git commit -m ${date_time}
         is_ok "本地缓存更新,";
     else
         echo "没有缓存可以提交"
