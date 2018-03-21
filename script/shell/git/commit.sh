@@ -1,6 +1,6 @@
 #! /bin/bash
 
-echo "提交git!"
+echo "提交到github!"
 
 # 查看当前状态
 status=""
@@ -95,7 +95,7 @@ function choice(){
     esac
 }
 
-# 获取结果数据
+# 获取判断结果数据
 function get_result(){
     status_value=${1}
     if [[ ${status_value} =~ ^(\(|"（").*?(\)|"）")$ ]];
@@ -120,19 +120,19 @@ function get_result(){
     fi      
 }
 
-choice=0
+choice_tmp=0
 status_value=""
 
+# 选取括号中的内容
 function test_aa(){
     
     if [[ ${1} =~ ^(\(|"（") ]];
     then
-        choice=1
+        choice_tmp=1
     elif [[ ${1} =~ (\)|"）")$ ]];
     then
-        choice=0
+        choice_tmp=0
         status_value=${status_value}${1}
-        # get_result ${status_value}
     else
         return 1
     fi
@@ -145,9 +145,8 @@ function filter(){
     for i in ${1}
     do
         test_aa ${i}
-        if [ ${choice} == 1 ];
+        if [ ${choice_tmp} == 1 ];
         then
-            # echo ${i}
             status_value=${status_value}${i}
         fi
     done

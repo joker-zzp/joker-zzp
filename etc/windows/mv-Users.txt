@@ -1,0 +1,18 @@
+# Windows 10 更改Users目录位置方法
+
+设置 --> 更新和安全 --> 恢复 --> 高级启动 的 立即重启
+
+重启之后
+找到命令行模式
+
+1.完全拷贝
+robocopy "C:\Users" "D:\Users" /E /COPYALL /XJ
+ps:注意目标目录一定要有Users 不然会将原有的内容下载到目录,不会生成Users目录
+
+2.删除原有目录
+rmdir "C:\Users" /S /Q
+
+3.创建硬链接
+mklink /J "C:Users "D:Users
+
+exit 后进入Windows 就可以看到从c盘可以直接进入到Users目录,虽然路径显示的是C盘下,但是存储位置依然是D盘.
