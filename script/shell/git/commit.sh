@@ -113,6 +113,9 @@ function get_result(){
         then
             echo "有可以上传的文件"
             status_value=""
+        else
+            echo "没有可以上传的文件"
+            quit
         fi
     fi      
 }
