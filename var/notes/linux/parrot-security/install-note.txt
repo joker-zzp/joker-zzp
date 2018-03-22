@@ -1,0 +1,10 @@
+# parrot security 安装注意事项
+
+1.更新
+  sudo dist-upgrade
+  方法2
+  sudo apt update
+  sudo apt full-upgrade
+  方法3
+
+2.
