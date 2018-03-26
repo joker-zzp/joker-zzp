@@ -1,0 +1,36 @@
+# 修改 Nginx 配置文件
+# 编辑 /etc/nginx/nginx.conf
+
+location / {
+            include uwsgi_params;
+            uwsgi_pass 127.0.0.1:8000;
+        }
+
+# 重启nginx服务
+/usr/sbin/nginx -s reload
+
+# 创建uwsgi配置文件
+# 在项目目录下创建 uwsgi.ini 文件
+# 写入类似于以下内容
+
+[uwsgi]
+socket = 127.0.0.1:8000
+chdir = /data/mysite
+wsgi-file = mysite/wsgi.py
+processes = 4
+threads = 2
+stats = 127.0.0.1:9191
+uid = nobody
+gid = nobody
+master = true
+harakiri = 30
+daemonize = /data/mysite/uwsgi.log
+plugins = python
+py-autoreload = 1
+
+------------------------------------
+
+# 启动 uwsgi
+uwsgi uwsgi.ini
+
+# 访问 网址看能否看到Django界面

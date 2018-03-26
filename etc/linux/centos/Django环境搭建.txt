@@ -1,13 +1,66 @@
-安装Django
+1# 在安装Django前首先要安装Python, 这里介绍的是在Python3 环境下的安装步骤
+# 安装Python3 请参考Python3 的安装文档
 
-pip install Django==2.0.3
+2# 安装Django
+
+pip3 install Django==2.0.3
+
+
+3# 然后在安装 Mysql
+# 请参考 Mysql安装文档
+
+4# 创建 Django 项目
+
+cd /data/
+django-admin startproject mysite
+
+------------------------------------------
+# 由于centos 7 之后的版本不提供mysql 下载 换成了Mariadb
+# 安装完成数据库后 在站点的__init__.py文件中添加两行
+
+import pymysql
+
+pymysql.install_as_MySQLdb()
+
+-----------------------------------------
+
+# 修改配置文件
+# /date/mysite/mysite/settings.py
+
+ALLOWED_HOSTS = ["*"]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mysite',
+        'PASSWORD':'joker@LQ1314',
+        'USER': 'root',
+        'HOST':'127.0.0.1',
+        'PORT':'3306',
+        'OPTIONS':{'autocommit':True,}
+    }
+}
+
+--------------------------------------------
+# 创建 Django 数据库
+
+cd /date/mysite
+python manage.py migrate
+
+python manage.py runserver
+
+
+5# 安装Nginx
+# 请参考 Nginx安装文档
+
+6# 安装uwsgi
 
 uwsgi 安装与测试
-pip install uwsgi
+pip3 install uwsgi
+
+# 如果没有连接可以手动创建连接
 ln -s /usr/local/python3/bin/uwsgi /usr/bin/uwsgi
 
-安装Mariadb
-yum install mariadb mariadb-server -y
-yum install MySQL-python -y
-systemctl start mariadb
+7# 让Nginx, uwsgi, Django 协同工作
+# 具体步骤请参考 nginx_uwsgi_Django协同合作文档
 

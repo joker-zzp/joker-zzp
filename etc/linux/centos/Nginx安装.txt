@@ -1,0 +1,6 @@
+# 安装Nginx
+# 通过yum 安装
+yum install nginx -y
+
+# 启动Nginx服务
+systemctl start nginx

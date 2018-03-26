@@ -1,0 +1,23 @@
+# 因为centos 7 之后的版本都不在提供Mysql安装源
+# 所以这里使用 mariadb 替代 MySQL
+# 之前要事先安装好 Python3 + pip + Django
+
+yum install mariadb mariadb-server -y
+
+yum install MySQL-python -y
+
+systemctl start mariadb
+
+# 对mariadb 进行初始化设置
+# 默认密码为空,直接回车即可
+
+mysql_secure_installation
+
+# 使用设置的密码登录 mariadb 这里密码假设是 test
+mysql -uroot -ptest
+
+# 创建一个数据库
+create database mysite;
+
+# 退出数据库
+exit 
