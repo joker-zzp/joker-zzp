@@ -17,8 +17,7 @@
   git diff <file-name>
 
 # 查看提交历史记录，以便确定要回退到哪个版本
-  git log
-    --pretty=oneline
+  git log --pretty=oneline
 
 # 查看命令历史，以便确定要回到未来的哪个版本
   git reflog
@@ -27,8 +26,7 @@
   HEAD
 
 # 切换到其他版本
-  git reset
-    --heard <commit-id>
+  git reset --heard <commit-id>
 
 # 上传到githud
   git push origin master
@@ -100,14 +98,53 @@
 
 7.从远程获取最新的版本到本地
   git fetch origin master:temp
+
   # 比较本地分支
   git diff temp
+
   # 合并分支到本地分支
   git merge temp
+
   # 删除temp分支
   git branch -d temp
 
 8.从服务器拉取一个文件
   git checkout <filename>
+
+--- 分离头针状态 ---
+
+# 查看当前HEAD 的指向
+cat .git/HEAD
+# 输出:ref: refs/heads/master
+
+# 查看当前分支的id
+git branch -v
+
+# 查看历史
+git log --graph --pretty=oneline
+
+# 以master分支名作为参数切换到master分支上
+git checkout master
+
+
+# 执行合并操作,合并到当前分支
+git merge acc2f69
+
+--- git checkout 详解 ---
+
+git checkout branch
+  # 检出branch分支,更新HEAD以指向branch分支,用branch指向的树更新暂存区和工作区
+
+git checkout
+  # 汇总显示工作区/ 暂存区和HEAD的差异,或git checkout HEAD
+
+git checkout -- filename
+  # 用暂存区中的filename 覆盖工作区中的filename 文件
+
+git checkout branch -- filename
+  # 用branch所指向的提交中的filename覆盖暂存区和工作区中响应的文件
+
+git checkout -- . 或 git checkout .
+  # 取消所有本地的修改(相对于暂存区),相当于用暂存区的所有文件直接覆盖本地
 
 # 未完
