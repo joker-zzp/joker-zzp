@@ -11,4 +11,4 @@ function main(){
     echo "帮助文档"
 }
 
-#main
+main
