@@ -1,6 +1,6 @@
 # parrot security 安装注意事项
 
-## Linux 装在U盘启动事项
+### Linux 装在U盘启动事项
 
 (initramfs)启动错误，主要原因是启动盘选择的不对
 
@@ -16,12 +16,12 @@
 
 这里必须执行，这里会重新扫描启动项，生成启动引导，以uuid方式标记硬盘，所以拿到别的电脑上也不会出现启动错误。
 
-## 更新
+### 更新
 
 `sudo apt-get update`  
 `sudo apt-get dist-upgrade`  
 
-## 更改语言设定针对命令行中文方块
+### 更改语言设定针对命令行中文方块
 
 `dpkg-reconfigure locales`
 
@@ -34,7 +34,7 @@ zh_CN.UTF-8
 
 将中文设置成默认后，重启即可
 
-## 配置SSH
+### 配置SSH
 
 编辑sshd_config文件
 
@@ -56,21 +56,29 @@ zh_CN.UTF-8
 
 `sudo update-rc.d ssh enable`
 
-## 安装常用软件
+### 安装常用软件
 
-### 安装搜狗输入法
+#### 安装搜狗输入法
 
 官网下载[搜狗拼音输入法 for Linux](https://pinyin.sogou.com/linux/?r=pinyin)
 
 `sudo dpkg -i sougoupinyinXXX.deb`
 
-### 安装谷歌拼音输入法
+#### 安装谷歌拼音输入法
 
 `sudo apt-get install fcitx-googlepinyin` 谷歌拼音
 
-### 安装Google Chrome
+#### 安装Google Chrome
 
-## Linux 命令行qq
+下载Linux版[Chrome离线包](http://www.google.cn/chrome/browser/desktop/index.html)
+
+```
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+sudo apt-get -f install
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+```
+
+### Linux 命令行qq
 
 1.安装perl
 
@@ -92,7 +100,7 @@ zh_CN.UTF-8
 
 `touch ircqq.pl`
 
-用编辑器编辑脚本
+6.用编辑器编辑脚本
 
 ```
 #!/usr/bin/env perl
@@ -103,7 +111,13 @@ $client->load("IRCShell"); #加载IRCShell插件
 $client->run();
 ```
 
-安装 weechat
+7.安装 weechat
 
 `sudo apt install weechat`
+
+8.在weechat中连接服务器
+
+`/server add ircqq localhost`
+
+`/connect ircqq`
 
