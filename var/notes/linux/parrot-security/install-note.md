@@ -2,8 +2,8 @@
 
 ## 更新
 
-sudo apt-get update
-sudo apt-get 
+`sudo apt-get update`
+`sudo apt-get ` 
 
 ## Linux 命令行qq
 
@@ -31,3 +31,5 @@ $client->load("ShowMsg");
 $client->load("IRCShell"); #加载IRCShell插件
 $client->run();
 ```
+安装 weechat
+`sudo apt install weechat`
