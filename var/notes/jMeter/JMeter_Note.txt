@@ -540,6 +540,41 @@ export PATH=$JMeter_HOME/lib/ext/ApacheJMeter_core.jar:$JMeter_HOME/lib/jorphan.
 12、如果测试过程中报内存不足，则再JMeter的bin目录下找到JMeter的启动文件JMeter.bat（Linux系统为JMeter.sh），打开该文件并修改该文件中的JVM内存设置。例如，JVM内存修改为：HEAP="-Xms512m -Xmx512m"，最大堆内存与最小堆内存保持一致，这样可以减少频繁申请创建、销毁内存引起的性能损耗开销。
 
 
+断言配置
+
+apply to：是应用范围，设定匹配的范围
+
+Main sample and sub-samples:匹配范围为当前父取样器，及子取样器
+
+Main sample only ：仅当前父取样器
+
+Sub samples only:仅子取样器
+
+JMeter Variable：变量值进行匹配
+
+要测试的响应文字：针对响应数据不同部分进行匹配
+
+(1)响应文本：响应服务器返回的文本内容，http协议排除header部分
+
+(2)响应代码：匹配响应代码，比如http请求中‘200’代表成功
+
+(3)响应信息：匹配响应信息，处理成功返回‘成功’或者“ok”字样
+
+(4)Response Header:匹配响应头中的信息
+
+匹配规则：
+
+包括：响应内容包括需要匹配的内容就算成功
+
+匹配：响应内容要完全匹配匹配内容，不区分大小写
+
+equals：完全相等，区分大小写
+
+substring：响应内容包括匹配内容即为成功。
+
+可以通过添加断言结果来查看断言的执行情况。
+
+ 
 
 
 
